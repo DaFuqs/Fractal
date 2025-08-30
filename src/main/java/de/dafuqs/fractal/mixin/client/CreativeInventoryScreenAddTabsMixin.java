@@ -3,6 +3,7 @@ package de.dafuqs.fractal.mixin.client;
 import de.dafuqs.fractal.api.*;
 import de.dafuqs.fractal.interfaces.*;
 import net.fabricmc.api.*;
+import net.minecraft.client.gl.*;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen.*;
@@ -46,78 +47,87 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends HandledScreen<
 	
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/CreativeInventoryScreen;drawMouseoverTooltip(Lnet/minecraft/client/gui/DrawContext;II)V"))
 	public void fractal$render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-		if (selectedTab instanceof ItemGroupParent parent && !parent.fractal$getChildren().isEmpty()) {
-			if (!selectedTab.shouldRenderName()) {
-				ItemGroup child = parent.fractal$getSelectedChild();
-				int x = context.drawText(textRenderer, selectedTab.getDisplayName(), this.x + 8, this.y + 6, 4210752, false);
-				if (child != null) {
-					x = context.drawText(textRenderer, " ", x, this.y + 6, 4210752, false);
-					context.drawText(textRenderer, child.getDisplayName(), x, this.y + 6, 4210752, false);
-				}
+		if (!(selectedTab instanceof ItemGroupParent parent) || parent.fractal$getChildren().isEmpty()) return;
+		
+		var matrices = context.getMatrices();
+		matrices.pushMatrix();
+		matrices.translate(this.x, this.y);
+		
+		if (!selectedTab.shouldRenderName()) {
+			ItemGroup child = parent.fractal$getSelectedChild();
+			var selected = selectedTab.getDisplayName();
+			context.drawText(textRenderer, selected, 8, 6, Colors.DARK_GRAY, false);
+			int x = 8 + textRenderer.getWidth(selected);
+			if (child != null) {
+				context.drawText(textRenderer, " ", x, 6, Colors.DARK_GRAY, false);
+				x += textRenderer.getWidth(" ");
+				context.drawText(textRenderer, child.getDisplayName(), x, 6, Colors.DARK_GRAY, false);
 			}
-			
-			int[] pos = {this.x, this.y + 6};
-			int tabStartOffset = 68;
-			int tabWidth = 72;
-			
-			fractal$x = pos[0] - tabWidth;
-			fractal$y = pos[1];
-			fractal$x2 = pos[0] + 259;
-			boolean rendersOnTheRight = false;
-			List<ItemSubGroup> children =  parent.fractal$getChildren();
-			for (ItemSubGroup child : parent.fractal$getChildren()) {
-
-				boolean thisChildSelected = child == parent.fractal$getSelectedChild();
-				ItemSubGroupStyle style = child.getStyle();
-				Identifier subtabTextureID = thisChildSelected
-						? rendersOnTheRight ? style.selectedSubtabTextureRight() :  style.selectedSubtabTextureLeft()
-						: rendersOnTheRight ? style.unselectedSubtabTextureRight() : style.unselectedSubtabTextureLeft();
-				
-				context.drawGuiTexture(RenderLayer::getGuiTextured, subtabTextureID, pos[0] - tabStartOffset, pos[1], 72, 11);
-				
-				int textOffset = thisChildSelected ? 8 : 5; // makes the text pop slightly outwards if selected
-				int textColor = child.getStyle().subtabNameTextColor();
-				String tabDisplayName = child.getDisplayName().getString();
-				if(rendersOnTheRight) {
-					context.draw(vertexConsumerProvider -> {
-						for (int i = 0; i < tabDisplayName.length(); i++) {
-							char c = tabDisplayName.charAt(i);
-							if (c > 0x7F) continue;
-							int u = (c % 16) * 4;
-							int v = (c / 16) * 6;
-							context.drawTexture(RenderLayer::getGuiTextured, TINYFONT_TEXTURE, pos[0] + 1 - tabStartOffset + textOffset, pos[1] + 3, u, v, 4, 6, 64, 48, textColor);
-							pos[0] += 4;
-						}
-					});
-				} else {
-					context.draw(vertexConsumerProvider -> {
-						for (int i = tabDisplayName.length() - 1; i >= 0; i--) {
-							char c = tabDisplayName.charAt(i);
-							if (c > 0x7F) continue;
-							int u = (c % 16) * 4;
-							int v = (c / 16) * 6;
-							context.drawTexture(RenderLayer::getGuiTextured, TINYFONT_TEXTURE, pos[0] - textOffset, pos[1] + 3, u, v, 4, 6, 64, 48, textColor);
-							pos[0] -= 4;
-						}
-					});
-				}
-				
-				int index = child.getIndexInParent();
-				if(index >= LAST_TAB_INDEX_RENDERING_LEFT) {
-					if(index == LAST_TAB_INDEX_RENDERING_LEFT) {
-						rendersOnTheRight = true;
-						pos[1] -= 10 * (LAST_TAB_INDEX_RENDERING_LEFT + 1);
-					}
-					pos[0] = fractal$x2;
-				} else {
-					pos[0] = this.x;
-				}
-				pos[1] += 10;
-			}
-			
-			fractal$h = 11 * Math.min(LAST_TAB_INDEX_RENDERING_LEFT + 1, children.size());
-			fractal$h2 = 11 * Math.max(0, children.size() - LAST_TAB_INDEX_RENDERING_LEFT - 1);
 		}
+
+		int curX = 0;
+		int curY = 6;
+		int tabStartOffset = 68;
+		int tabWidth = 72;
+
+		fractal$x = curX - tabWidth;
+		fractal$y = curY;
+		fractal$x2 = curX + 259;
+		boolean rendersOnTheRight = false;
+		List<ItemSubGroup> children =  parent.fractal$getChildren();
+		for (ItemSubGroup child : parent.fractal$getChildren()) {
+			boolean thisChildSelected = child == parent.fractal$getSelectedChild();
+			ItemSubGroupStyle style = child.getStyle();
+			Identifier subtabTextureID = thisChildSelected
+					? rendersOnTheRight ? style.selectedSubtabTextureRight() :  style.selectedSubtabTextureLeft()
+					: rendersOnTheRight ? style.unselectedSubtabTextureRight() : style.unselectedSubtabTextureLeft();
+			
+			context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, subtabTextureID, curX - tabStartOffset, curY, 72, 11);
+			
+			int textOffset = thisChildSelected ? 8 : 5; // makes the text pop slightly outwards if selected
+			int textColor = child.getStyle().subtabNameTextColor();
+			String tabDisplayName = child.getDisplayName().getString();
+			if (rendersOnTheRight) {
+				for (int i = 0; i < tabDisplayName.length(); i++) {
+					char c = tabDisplayName.charAt(i);
+					if (c > 0x7F) continue;
+					int u = (c % 16) * 4;
+					int v = (c / 16) * 6;
+					context.drawTexture(RenderPipelines.GUI_TEXTURED, TINYFONT_TEXTURE, curX + 1 - tabStartOffset + textOffset, curY + 3, u, v, 4, 6, 64, 48, textColor);
+					curX += 4;
+				}
+			} else {
+				for (int i = tabDisplayName.length() - 1; i >= 0; i--) {
+					char c = tabDisplayName.charAt(i);
+					if (c > 0x7F) continue;
+					int u = (c % 16) * 4;
+					int v = (c / 16) * 6;
+					context.drawTexture(RenderPipelines.GUI_TEXTURED, TINYFONT_TEXTURE, curX - textOffset, curY + 3, u, v, 4, 6, 64, 48, textColor);
+					curX -= 4;
+				}
+			}
+			
+			int index = child.getIndexInParent();
+			if (index >= LAST_TAB_INDEX_RENDERING_LEFT) {
+				if (index == LAST_TAB_INDEX_RENDERING_LEFT) {
+					rendersOnTheRight = true;
+					curY -= 10 * (LAST_TAB_INDEX_RENDERING_LEFT + 1);
+				}
+				curX = fractal$x2;
+			} else {
+				curX = 0;
+			}
+			curY += 10;
+		}
+
+		fractal$h = 11 * Math.min(LAST_TAB_INDEX_RENDERING_LEFT + 1, children.size());
+		fractal$h2 = 11 * Math.max(0, children.size() - LAST_TAB_INDEX_RENDERING_LEFT - 1);
+
+		matrices.popMatrix();
+		// adjust relative coords to "absolute" ones
+		fractal$x  += this.x;
+		fractal$x2 += this.x;
+		fractal$y  += this.y;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "mouseClicked", cancellable = true)
