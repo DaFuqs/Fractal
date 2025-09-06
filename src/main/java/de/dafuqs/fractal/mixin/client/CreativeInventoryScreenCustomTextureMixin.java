@@ -25,14 +25,14 @@ public abstract class CreativeInventoryScreenCustomTextureMixin {
 	private ItemGroup fractal$renderedItemGroup;
 	
 	// BACKGROUND
-	@ModifyArg(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIFFIIII)V"))
+	@ModifyArg(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIFFIIII)V"))
 	private Identifier injectCustomGroupTexture(Identifier original) {
 		ItemSubGroup subGroup = getSelectedSubGroup();
 		return (subGroup == null || subGroup.getStyle().backgroundTexture() == null) ? original : subGroup.getStyle().backgroundTexture();
 	}
 	
 	// SCROLLBAR
-	@ModifyArg(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"))
+	@ModifyArg(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIFFIIII)V"))
 	private Identifier injectCustomScrollbarTexture(Identifier original) {
 		ItemSubGroup subGroup = getSelectedSubGroup();
 		if(subGroup != null) {
@@ -50,7 +50,7 @@ public abstract class CreativeInventoryScreenCustomTextureMixin {
 		this.fractal$renderedItemGroup = group;
 	}
 	
-	@ModifyArg(method = "renderTabIcon", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"))
+	@ModifyArg(method = "renderTabIcon", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V"))
 	private Identifier injectCustomTabTexture(Identifier original) {
 		ItemSubGroup subGroup = getRenderedSubGroup();
 		if(subGroup == null) {
