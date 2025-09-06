@@ -15,9 +15,6 @@
     "main": [
       "de.dafuqs.fractal.Fractal"
     ],
-    "emi": [
-      "de.dafuqs.fractal.compat.FractalEMIPlugin"
-    ],
     "rei_client": [
       "de.dafuqs.fractal.compat.FractalREIPlugin"
     ]

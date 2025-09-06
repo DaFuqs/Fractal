@@ -131,11 +131,11 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends HandledScreen<
 				if (mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + 11) {
 					parent.fractal$setSelectedChild(child);
 					
-					handler.itemList.clear();
-					handler.itemList.addAll(selected.getDisplayStacks());
+					this.handler.itemList.clear();
+					this.handler.itemList.addAll(selected.getDisplayStacks());
 					
 					this.scrollPosition = 0.0F;
-					handler.scrollItems(0.0F);
+					this.handler.scrollItems(0.0F);
 					ci.setReturnValue(true);
 					return;
 				}
