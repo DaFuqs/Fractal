@@ -1,6 +1,0 @@
-{
-	"injected_interfaces": {
-		"net/minecraft/class_1761": ["top/girlkisser/fractal/interfaces/ICreativeTabParent"],
-		"net/minecraft/class_481": ["top/girlkisser/fractal/interfaces/ISubTabLocation"]
-	}
-}

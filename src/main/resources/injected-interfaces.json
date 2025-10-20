@@ -1,0 +1,8 @@
+{
+  "net/minecraft/class_1761": [
+    "de/dafuqs/fractal/interfaces/ICreativeTabParent"
+  ],
+  "net/minecraft/class_481": [
+    "de/dafuqs/fractal/interfaces/ISubTabLocation"
+  ]
+}

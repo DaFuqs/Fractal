@@ -1,16 +1,9 @@
 # About Fractal
 
-This repo is a fork of [DaFuqs/fractal](https://github.com/dafuqs/fractal) by
-DaFuqs which is a fork of [lib39/fractal](https://git.sleeping.town/unascribed-mods/Lib39)
-by unascribed.
+This repo is a fork of [lib39/fractal](https://git.sleeping.town/unascribed-mods/Lib39) by unascribed,
+with added support for styled groups.
 
-Fractal introduces item **subgroups for the creative menu**.
-
-## Differences from Upstream
-
-- NeoForge
-- Some classes are renamed to fit more with Mojmaps
-- That's pretty much it!
+Fractal introduces **subtabs for the creative menu**.
 
 ### Why Fractal?
 
@@ -166,10 +159,5 @@ public static final CreativeMenuTab RESOURCES = new CreativeSubTab.Builder(MAIN,
 
 ### Test Mod
 
-There's a test mod source set at `src/test/` which goes over most features in
-Fractal. You can run it using `gradlew runTestmodClient`.
-
-## Todo
-
-- [ ] Add test for CreativeSubTabEvent
-- [x] JEI and REI integration
+There's a test mod source set at `src/test/` which goes over most features in Fractal.
+You can run it using `gradlew runTestmodClient`.

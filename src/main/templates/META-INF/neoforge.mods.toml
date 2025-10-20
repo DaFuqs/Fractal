@@ -1,15 +1,15 @@
 modLoader = "javafml"
 loaderVersion = "${loader_version_range}"
 license = "${mod_license}"
-issueTrackerURL = "https://github.com/emmathemartian/fractal-neoforge/issues"
+issueTrackerURL = "https://github.com/DaFuqs/Fractal/issues"
 
 [[mods]]
     modId = "${mod_id}"
     version = "${mod_version}"
     displayName = "${mod_name}"
-    displayURL = "https://github.com/emmathemartian/fractal-neoforge"
+displayURL = "https://github.com/DaFuqs/Fractal"
     logoFile = "assets/${mod_id}/icon.png"
-    credits = "Unascribed, DaFuqs"
+credits = "Unascribed, DaFuqs, EmmaTheMartian"
     authors = "${mod_authors}"
     description = '''${mod_description}'''
 
@@ -22,7 +22,7 @@ issueTrackerURL = "https://github.com/emmathemartian/fractal-neoforge/issues"
 [[dependencies."${mod_id}"]]
     modId = "neoforge"
     type = "required"
-    versionRange = "${neo_version_range}"
+versionRange = "${neoforge_version_range}"
     ordering = "NONE"
     side = "BOTH"
 

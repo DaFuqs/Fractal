@@ -16,7 +16,7 @@ issueTrackerURL = "https://github.com/emmathemartian/fractal-neoforge/issues"
 [[dependencies."${mod_id}_test"]]
     modId = "neoforge"
     type = "required"
-    versionRange = "${neo_version_range}"
+versionRange = "${neoforge_version_range}"
     ordering = "NONE"
     side = "BOTH"
 
