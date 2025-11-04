@@ -131,7 +131,9 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends HandledScreen<
 	}
 	
 	@Inject(at = @At("HEAD"), method = "mouseClicked", cancellable = true)
-	public void fractal$mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> ci) {
+	public void fractal$mouseClicked(Click click, boolean doubled, CallbackInfoReturnable<Boolean> cir) {
+		double mouseX = click.x();
+		double mouseY = click.y();
 		ItemGroup selected = selectedTab;
 		if (selected instanceof ItemGroupParent parent && !parent.fractal$getChildren().isEmpty()) {
 			int x = fractal$x;
@@ -146,7 +148,7 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends HandledScreen<
 					
 					this.scrollPosition = 0.0F;
 					this.handler.scrollItems(0.0F);
-					ci.setReturnValue(true);
+					cir.setReturnValue(true);
 					return;
 				}
 				y += 10;

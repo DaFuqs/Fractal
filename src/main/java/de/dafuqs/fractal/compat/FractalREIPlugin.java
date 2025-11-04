@@ -1,4 +1,4 @@
-package de.dafuqs.fractal.compat;
+/*package de.dafuqs.fractal.compat;
 
 import de.dafuqs.fractal.interfaces.*;
 import de.dafuqs.fractal.mixin.client.*;
@@ -27,3 +27,4 @@ public class FractalREIPlugin implements REIClientPlugin {
 	}
 	
 }
+*/
