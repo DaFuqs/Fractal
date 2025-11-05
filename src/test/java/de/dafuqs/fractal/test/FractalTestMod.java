@@ -14,7 +14,7 @@ import net.neoforged.neoforge.registries.*;
 public class FractalTestMod {
 	public static final String MODID = "fractal_test";
 	
-	// Create a subtab style for the redstone sbutab.
+	// Create a subtab style for the redstone subtab.
 	public static final CreativeSubTabStyle STYLE_REDSTONE = new CreativeSubTabStyle.Builder()
 			.background(id("textures/gui/container/creative_inventory/redstone_menu.png"))
 			.tab(

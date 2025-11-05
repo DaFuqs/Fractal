@@ -6,6 +6,10 @@ plugins {
 version = mod_version
 group = mod_group_id
 
+sourceSets {
+	test
+}
+
 repositories {
 	maven { url "https://maven.neoforged.net" }
 	maven { url "https://maven.parchmentmc.org" }
@@ -54,6 +58,8 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 neoForge {
 	version = project.neoforge_version
 
+	addModdingDependenciesTo(sourceSets.test)
+
 	parchment {
 		minecraftVersion = project.parchment_minecraft_version
 		mappingsVersion = project.parchment_mappings_version
@@ -66,6 +72,10 @@ neoForge {
 	runs {
 		client {
 			client()
+		}
+		"testmodClient" {
+			client()
+			sourceSet = sourceSets.test
 		}
 
 		server {
@@ -102,6 +112,7 @@ neoForge {
 	mods {
 		fractal {
 			sourceSet sourceSets.main
+			sourceSet sourceSets.test
 		}
 	}
 }
