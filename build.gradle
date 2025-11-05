@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.11-SNAPSHOT'
+    id 'fabric-loom' version '1.12-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -41,11 +41,11 @@ dependencies {
     // Recipe viewers
     //modCompileOnly "dev.emi:emi-fabric:${emi_version}"
     //modCompileOnly "dev.emi:emi-fabric:${project.emi_version}:api"
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
+    //modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
     modApi "me.shedaniel.cloth:basic-math:0.6.1"
 
     switch (recipe_viewer.toLowerCase(Locale.ROOT)) {
-        case "rei": modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"); break
+        //case "rei": modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"); break
         //case "emi": modLocalRuntime("dev.emi:emi-fabric:${project.emi_version}"); break
         case "disabled": break
         default: println("Unknown recipe viewer specified: $recipe_viewer. Must be EMI, REI or disabled.")
