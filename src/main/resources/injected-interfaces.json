@@ -1,8 +1,8 @@
 {
-  "net/minecraft/class_1761": [
+  "net/minecraft/world/item/CreativeModeTab": [
     "de/dafuqs/fractal/interfaces/ICreativeTabParent"
   ],
-  "net/minecraft/class_481": [
+  "net/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen": [
     "de/dafuqs/fractal/interfaces/ISubTabLocation"
   ]
 }
