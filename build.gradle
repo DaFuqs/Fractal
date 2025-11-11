@@ -126,7 +126,6 @@ neoForge {
 			sourceSet sourceSets.main
 		}
 		fractal_test {
-			sourceSet sourceSets.main
 			sourceSet sourceSets.test
 		}
 	}
