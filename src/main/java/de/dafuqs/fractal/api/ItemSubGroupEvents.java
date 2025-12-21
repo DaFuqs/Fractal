@@ -3,7 +3,7 @@ package de.dafuqs.fractal.api;
 import de.dafuqs.fractal.impl.*;
 import net.fabricmc.fabric.api.event.*;
 import net.fabricmc.fabric.api.itemgroup.v1.*;
-import net.minecraft.util.*;
+import net.minecraft.resources.Identifier;
 
 public final class ItemSubGroupEvents {
 	private ItemSubGroupEvents() {
