@@ -1,28 +1,30 @@
 package de.dafuqs.fractal.api;
 
-import de.dafuqs.fractal.interfaces.*;
 import net.fabricmc.fabric.api.event.*;
 import net.fabricmc.fabric.api.itemgroup.v1.*;
-import net.minecraft.item.*;
-import net.minecraft.registry.*;
-import net.minecraft.text.*;
-import net.minecraft.util.*;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.*;
 
-public class ItemSubGroup extends ItemGroup {
+public class ItemSubGroup extends CreativeModeTab {
 	
 	public static final List<ItemSubGroup> SUB_GROUPS = new ArrayList<>();
 	
-	protected final ItemGroup parent;
+	protected final CreativeModeTab parent;
 	protected final Identifier identifier;
 	protected final int indexInParent;
 	protected final ItemSubGroupStyle style;
 	
 	public static final ItemSubGroupStyle DEFAULT_STYLE = new ItemSubGroupStyle.Builder().build();
 	
-	protected ItemSubGroup(ItemGroup parent, Identifier identifier, Text displayName, EntryCollector entryCollector, ItemSubGroupStyle style) {
-		super(parent.getRow(), parent.getColumn(), parent.getType(), displayName, () -> ItemStack.EMPTY, entryCollector);
+	protected ItemSubGroup(CreativeModeTab parent, Identifier identifier, Component displayName, DisplayItemsGenerator displayItemsGenerator, ItemSubGroupStyle style) {
+		super(parent.row(), parent.column(), parent.getType(), displayName, () -> ItemStack.EMPTY, displayItemsGenerator);
 		this.style = style;
 		this.identifier = identifier;
 		this.parent = parent;
@@ -37,41 +39,42 @@ public class ItemSubGroup extends ItemGroup {
 	public Identifier getIdentifier() {
 		return identifier;
 	}
-	
+
 	/**
 	 * 100 % the vanilla code, but the check for registered item groups was removed
 	 * (we do not want to register our subgroups, so other mods do not pick them up)
 	 */
+
 	@Override
-	public void updateEntries(DisplayContext context) {
-		EntriesImpl entries = new EntriesImpl(this, context.enabledFeatures);
-		this.entryCollector.accept(context, entries);
-		this.displayStacks = entries.parentTabStacks;
-		this.searchTabStacks = entries.searchTabStacks;
+	public void buildContents(ItemDisplayParameters context) {
+		ItemDisplayBuilder entries = new ItemDisplayBuilder(this, context.enabledFeatures());
+		this.displayItemsGenerator.accept(context, entries);
+		this.displayItems = entries.tabContents;
+		this.displayItemsSearchTab = entries.searchTabContents;
 		
 		triggerEntryUpdateEvent(context);
 		
-		this.parent.searchTabStacks.addAll(this.searchTabStacks);
-		this.parent.displayStacks.addAll(this.displayStacks);
+		this.parent.displayItemsSearchTab.addAll(this.displayItemsSearchTab);
+		this.parent.displayItems.addAll(this.displayItems);
 	}
 	
 	// Custom impl of the default fabric event trigger at
 	// https://github.com/FabricMC/fabric/blob/95a137205b0b47b97b1ab35ac09a3430641137de/fabric-item-group-api-v1/src/main/java/net/fabricmc/fabric/mixin/itemgroup/ItemGroupMixin.java#L55
-	protected void triggerEntryUpdateEvent(DisplayContext context) {
-		final RegistryKey<ItemGroup> registryKey = Registries.ITEM_GROUP.getKey(parent).orElseThrow(() -> new IllegalStateException("Unregistered parent item group : " + parent));
+	protected void triggerEntryUpdateEvent(ItemDisplayParameters context) {
+		final ResourceKey<CreativeModeTab> registryKey = BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(parent).orElseThrow(() -> new IllegalStateException("Unregistered parent item group : " + parent));
 		
 		// Do not modify special item groups (except Operator Blocks) at all.
 		// Special item groups include Saved Hotbars, Search, and Survival Inventory.
 		// Note, search gets modified as part of the parent item group.
-		if (parent.isSpecial() && registryKey != ItemGroups.OPERATOR) return;
+		if (parent.isAlignedRight() && registryKey != CreativeModeTabs.OP_BLOCKS) return;
 		
 		// Sanity check for the injection point. It should be after these fields are set.
-		Objects.requireNonNull(displayStacks, "displayStacks");
-		Objects.requireNonNull(searchTabStacks, "searchTabStacks");
+		Objects.requireNonNull(displayItems, "displayItems");
+		Objects.requireNonNull(displayItemsSearchTab, "searchTabStacks");
 		
 		// Convert the entries to lists
-		List<ItemStack> mutableDisplayStacks = new LinkedList<>(displayStacks);
-		List<ItemStack> mutableSearchTabStacks = new LinkedList<>(searchTabStacks);
+		List<ItemStack> mutableDisplayStacks = new LinkedList<>(displayItems);
+		List<ItemStack> mutableSearchTabStacks = new LinkedList<>(displayItemsSearchTab);
 		FabricItemGroupEntries entries = new FabricItemGroupEntries(context, mutableDisplayStacks, mutableSearchTabStacks); // scary ApiStatus.Internal usage
 		
 		final Event<ItemSubGroupEvents.ModifyEntries> modifyEntriesEvent = ItemSubGroupEvents.modifyEntriesEvent(identifier);
@@ -81,24 +84,24 @@ public class ItemSubGroup extends ItemGroup {
 		}
 		
 		// Now trigger the global event
-		if (registryKey != ItemGroups.OPERATOR || context.hasPermissions()) {
+		if (registryKey != CreativeModeTabs.OP_BLOCKS || context.hasPermissions()) {
 			ItemSubGroupEvents.MODIFY_ENTRIES_ALL.invoker().modifyEntries(this, entries);
 		}
 		
 		// Convert the stacks back to sets after the events had a chance to modify them
-		displayStacks.clear();
-		displayStacks.addAll(mutableDisplayStacks);
+		displayItems.clear();
+		displayItems.addAll(mutableDisplayStacks);
 		
-		searchTabStacks.clear();
-		searchTabStacks.addAll(mutableSearchTabStacks);
+		displayItemsSearchTab.clear();
+		displayItemsSearchTab.addAll(mutableSearchTabStacks);
 	}
 	
 	@Override
-	public ItemStack getIcon() {
+	public ItemStack getIconItem() {
 		return ItemStack.EMPTY;
 	}
 	
-	public ItemGroup getParent() {
+	public CreativeModeTab getParent() {
 		return parent;
 	}
 	
@@ -112,13 +115,13 @@ public class ItemSubGroup extends ItemGroup {
 	
 	public static class Builder {
 		
-		protected ItemGroup parent;
+		protected CreativeModeTab parent;
 		protected final Identifier identifier;
-		protected Text displayName;
+		protected Component displayName;
 		protected ItemSubGroupStyle style = DEFAULT_STYLE;
-		private EntryCollector entryCollector;
+		private DisplayItemsGenerator displayItemsGenerator;
 		
-		public Builder(ItemGroup parent, Identifier identifier, Text displayName) {
+		public Builder(CreativeModeTab parent, Identifier identifier, Component displayName) {
 			this.parent = parent;
 			this.identifier = identifier;
 			this.displayName = displayName;
@@ -129,13 +132,13 @@ public class ItemSubGroup extends ItemGroup {
 			return this;
 		}
 		
-		public Builder entries(EntryCollector entryCollector) {
-			this.entryCollector = entryCollector;
+		public Builder entries(DisplayItemsGenerator displayItemsGenerator) {
+			this.displayItemsGenerator = displayItemsGenerator;
 			return this;
 		}
 		
 		public ItemSubGroup build() {
-			ItemSubGroup subGroup = new ItemSubGroup(parent, identifier, displayName, entryCollector, style);
+			ItemSubGroup subGroup = new ItemSubGroup(parent, identifier, displayName, displayItemsGenerator, style);
 			SUB_GROUPS.add(subGroup);
 			return subGroup;
 		}

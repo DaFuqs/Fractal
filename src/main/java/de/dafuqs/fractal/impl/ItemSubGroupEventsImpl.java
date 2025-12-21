@@ -2,7 +2,7 @@ package de.dafuqs.fractal.impl;
 
 import de.dafuqs.fractal.api.*;
 import net.fabricmc.fabric.api.event.*;
-import net.minecraft.util.*;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.*;
 
 import java.util.*;

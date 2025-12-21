@@ -4,13 +4,13 @@
   "package": "de.dafuqs.fractal.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "MixinItemGroup",
-    "MixinItemGroups"
+    "MixinCreativeModeTab",
+    "MixinCreativeModeTabs"
   ],
   "client": [
-    "client.CreativeInventoryScreenAccessor",
-    "client.CreativeInventoryScreenAddTabsMixin",
-    "client.CreativeInventoryScreenCustomTextureMixin"
+    "client.CreativeModeInventoryScreenAccessor",
+    "client.CreativeModeInventoryScreenAddTabsMixin",
+    "client.CreativeModeInventoryScreenCustomTextureMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,34 +1,35 @@
 package de.dafuqs.fractal.api;
 
-import net.minecraft.item.*;
-import net.minecraft.resource.featuretoggle.*;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.ItemLike;
 
 import java.util.*;
 
-public class DefaultStackEntryCollector implements ItemGroup.Entries {
+public class DefaultStackEntryCollector implements CreativeModeTab.Output {
 	
-	public final Collection<ItemStack> parentTabStacks = ItemStackSet.create();
-	public final Set<ItemStack> searchTabStacks = ItemStackSet.create();
-	private final ItemGroup group;
-	private final FeatureSet enabledFeatures;
-	
-	public DefaultStackEntryCollector(ItemGroup group, FeatureSet enabledFeatures) {
+	public final Collection<ItemStack> parentTabStacks = ItemStackLinkedSet.createTypeAndComponentsSet();
+	public final Set<ItemStack> searchTabStacks = ItemStackLinkedSet.createTypeAndComponentsSet();
+	private final CreativeModeTab group;
+	private final FeatureFlagSet enabledFeatures;
+
+	public DefaultStackEntryCollector(CreativeModeTab group, FeatureFlagSet enabledFeatures) {
 		this.group = group;
 		this.enabledFeatures = enabledFeatures;
 	}
 	
 	@Override
-	public void add(ItemConvertible item, ItemGroup.StackVisibility visibility) {
-		this.add(item.asItem().getDefaultStack(), visibility);
+	public void accept(ItemLike item, CreativeModeTab.TabVisibility visibility) {
+		this.accept(item.asItem().getDefaultInstance(), visibility);
 	}
 	
 	@Override
-	public void add(ItemStack stack, ItemGroup.StackVisibility visibility) {
+	public void accept(ItemStack stack, CreativeModeTab.TabVisibility visibility) {
 		if (stack.getCount() != 1) {
 			throw new IllegalArgumentException("Stack size must be exactly 1");
 		} else {
-			if (this.parentTabStacks.contains(stack) && visibility != ItemGroup.StackVisibility.SEARCH_TAB_ONLY) {
-				throw new IllegalStateException("Accidentally adding the same item stack twice " + stack.toHoverableText().getString() + " to a Creative Mode Tab: " + this.group.getDisplayName().getString());
+			if (this.parentTabStacks.contains(stack) && visibility != CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY) {
+				throw new IllegalStateException("Accidentally adding the same item stack twice " + stack.getDisplayName().getString() + " to a Creative Mode Tab: " + this.group.getDisplayName().getString());
 			} else {
 				if (stack.getItem().isEnabled(this.enabledFeatures)) {
 					switch (visibility) {
