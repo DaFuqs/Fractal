@@ -4,8 +4,8 @@
   "package": "de.dafuqs.fractal.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "MixinCreativeModeTab",
-    "MixinCreativeModeTabs"
+    "CreativeModeTabMixin",
+    "CreativeModeTabsMixin"
   ],
   "client": [
     "client.CreativeModeInventoryScreenAccessor",

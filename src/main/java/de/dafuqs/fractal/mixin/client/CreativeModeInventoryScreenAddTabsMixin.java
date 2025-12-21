@@ -4,15 +4,14 @@ import de.dafuqs.fractal.api.*;
 import de.dafuqs.fractal.interfaces.*;
 import net.fabricmc.api.*;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import net.minecraft.util.CommonColors;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.client.gui.screens.inventory.*;
+import net.minecraft.client.input.*;
+import net.minecraft.client.renderer.*;
+import net.minecraft.network.chat.*;
+import net.minecraft.resources.*;
+import net.minecraft.util.*;
+import net.minecraft.world.entity.player.*;
+import net.minecraft.world.item.*;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
@@ -21,7 +20,7 @@ import java.util.*;
 
 @Environment(EnvType.CLIENT)
 @Mixin(CreativeModeInventoryScreen.class)
-public abstract class CreativeModeInventoryScreenAddTabsMixin extends AbstractContainerScreen<CreativeModeInventoryScreen.ItemPickerMenu> implements SubTabLocation, CreativeModeInventoryScreenAccessor {
+public abstract class CreativeModeInventoryScreenAddTabsMixin extends AbstractContainerScreen<CreativeModeInventoryScreen.ItemPickerMenu> implements ISubTabLocation, CreativeModeInventoryScreenAccessor {
 	
 	@Unique
 	private static final int LAST_TAB_INDEX_RENDERING_LEFT = 11;
@@ -48,7 +47,7 @@ public abstract class CreativeModeInventoryScreenAddTabsMixin extends AbstractCo
 	
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen;renderTooltip(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
 	public void fractal$render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-		if (!(selectedTab instanceof ItemGroupParent parent) || parent.fractal$getChildren().isEmpty()) return;
+		if (!(selectedTab instanceof ICreativeTabParent parent) || parent.fractal$getChildren().isEmpty()) return;
 		
 		var matrices = guiGraphics.pose();
 		matrices.pushMatrix();
@@ -75,10 +74,10 @@ public abstract class CreativeModeInventoryScreenAddTabsMixin extends AbstractCo
 		fractal$y = curY;
 		fractal$x2 = curX + 259;
 		boolean rendersOnTheRight = false;
-		List<ItemSubGroup> children =  parent.fractal$getChildren();
-		for (ItemSubGroup child : parent.fractal$getChildren()) {
+		List<CreativeSubTab> children = parent.fractal$getChildren();
+		for (CreativeSubTab child : parent.fractal$getChildren()) {
 			boolean thisChildSelected = child == parent.fractal$getSelectedChild();
-			ItemSubGroupStyle style = child.getStyle();
+			CreativeSubTabStyle style = child.getStyle();
 			Identifier subtabTextureID = thisChildSelected
 					? rendersOnTheRight ? style.selectedSubtabTextureRight() :  style.selectedSubtabTextureLeft()
 					: rendersOnTheRight ? style.unselectedSubtabTextureRight() : style.unselectedSubtabTextureLeft();
@@ -136,11 +135,11 @@ public abstract class CreativeModeInventoryScreenAddTabsMixin extends AbstractCo
 		double mouseX = mouseButtonEvent.x();
 		double mouseY = mouseButtonEvent.y();
 		CreativeModeTab selected = selectedTab;
-		if (selected instanceof ItemGroupParent parent && !parent.fractal$getChildren().isEmpty()) {
+		if (selected instanceof ICreativeTabParent parent && !parent.fractal$getChildren().isEmpty()) {
 			int x = fractal$x;
 			int y = fractal$y;
 			int w = 77;
-			for (ItemSubGroup child : parent.fractal$getChildren()) {
+			for (CreativeSubTab child : parent.fractal$getChildren()) {
 				if (mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + 11) {
 					parent.fractal$setSelectedChild(child);
 					

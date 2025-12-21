@@ -2,28 +2,26 @@ package de.dafuqs.fractal.api;
 
 import net.fabricmc.fabric.api.event.*;
 import net.fabricmc.fabric.api.itemgroup.v1.*;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.registries.*;
+import net.minecraft.network.chat.*;
+import net.minecraft.resources.*;
+import net.minecraft.world.item.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class ItemSubGroup extends CreativeModeTab {
+public class CreativeSubTab extends CreativeModeTab {
 	
-	public static final List<ItemSubGroup> SUB_GROUPS = new ArrayList<>();
+	public static final List<CreativeSubTab> SUB_GROUPS = new ArrayList<>();
 	
 	protected final CreativeModeTab parent;
 	protected final Identifier identifier;
 	protected final int indexInParent;
-	protected final ItemSubGroupStyle style;
+	protected final CreativeSubTabStyle style;
 	
-	public static final ItemSubGroupStyle DEFAULT_STYLE = new ItemSubGroupStyle.Builder().build();
+	public static final CreativeSubTabStyle DEFAULT_STYLE = new CreativeSubTabStyle.Builder().build();
 	
-	protected ItemSubGroup(CreativeModeTab parent, Identifier identifier, Component displayName, DisplayItemsGenerator displayItemsGenerator, ItemSubGroupStyle style) {
+	protected CreativeSubTab(CreativeModeTab parent, Identifier identifier, Component displayName, DisplayItemsGenerator displayItemsGenerator, CreativeSubTabStyle style) {
 		super(parent.row(), parent.column(), parent.getType(), displayName, () -> ItemStack.EMPTY, displayItemsGenerator);
 		this.style = style;
 		this.identifier = identifier;
@@ -77,7 +75,7 @@ public class ItemSubGroup extends CreativeModeTab {
 		List<ItemStack> mutableSearchTabStacks = new LinkedList<>(displayItemsSearchTab);
 		FabricItemGroupEntries entries = new FabricItemGroupEntries(context, mutableDisplayStacks, mutableSearchTabStacks); // scary ApiStatus.Internal usage
 		
-		final Event<ItemSubGroupEvents.ModifyEntries> modifyEntriesEvent = ItemSubGroupEvents.modifyEntriesEvent(identifier);
+		final Event<CreativeSubTabEvent.ModifyEntries> modifyEntriesEvent = CreativeSubTabEvent.modifyEntriesEvent(identifier);
 		
 		if (modifyEntriesEvent != null) {
 			modifyEntriesEvent.invoker().modifyEntries(entries);
@@ -85,7 +83,7 @@ public class ItemSubGroup extends CreativeModeTab {
 		
 		// Now trigger the global event
 		if (registryKey != CreativeModeTabs.OP_BLOCKS || context.hasPermissions()) {
-			ItemSubGroupEvents.MODIFY_ENTRIES_ALL.invoker().modifyEntries(this, entries);
+			CreativeSubTabEvent.MODIFY_ENTRIES_ALL.invoker().modifyEntries(this, entries);
 		}
 		
 		// Convert the stacks back to sets after the events had a chance to modify them
@@ -97,7 +95,7 @@ public class ItemSubGroup extends CreativeModeTab {
 	}
 	
 	@Override
-	public ItemStack getIconItem() {
+	public @NotNull ItemStack getIconItem() {
 		return ItemStack.EMPTY;
 	}
 	
@@ -109,7 +107,7 @@ public class ItemSubGroup extends CreativeModeTab {
 		return indexInParent;
 	}
 	
-	public ItemSubGroupStyle getStyle() {
+	public CreativeSubTabStyle getStyle() {
 		return style;
 	}
 	
@@ -118,7 +116,7 @@ public class ItemSubGroup extends CreativeModeTab {
 		protected CreativeModeTab parent;
 		protected final Identifier identifier;
 		protected Component displayName;
-		protected ItemSubGroupStyle style = DEFAULT_STYLE;
+		protected CreativeSubTabStyle style = DEFAULT_STYLE;
 		private DisplayItemsGenerator displayItemsGenerator;
 		
 		public Builder(CreativeModeTab parent, Identifier identifier, Component displayName) {
@@ -127,7 +125,7 @@ public class ItemSubGroup extends CreativeModeTab {
 			this.displayName = displayName;
 		}
 		
-		public Builder styled(ItemSubGroupStyle style) {
+		public Builder styled(CreativeSubTabStyle style) {
 			this.style = style;
 			return this;
 		}
@@ -137,8 +135,8 @@ public class ItemSubGroup extends CreativeModeTab {
 			return this;
 		}
 		
-		public ItemSubGroup build() {
-			ItemSubGroup subGroup = new ItemSubGroup(parent, identifier, displayName, displayItemsGenerator, style);
+		public CreativeSubTab build() {
+			CreativeSubTab subGroup = new CreativeSubTab(parent, identifier, displayName, displayItemsGenerator, style);
 			SUB_GROUPS.add(subGroup);
 			return subGroup;
 		}

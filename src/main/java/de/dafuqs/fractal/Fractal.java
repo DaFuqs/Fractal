@@ -1,11 +1,9 @@
 package de.dafuqs.fractal;
 
 import net.fabricmc.api.*;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.Registry;
 
 public class Fractal implements ModInitializer {
-
+	
 	/*
 	// Texture (put into \resources\assets\fractal\textures\gui\container\creative_inventory)
 	public static final Identifier BACKGROUND_TEXTURE = Identifier.fromNamespaceAndPath("fractal", "textures/gui/container/creative_inventory/custom_background.png");
@@ -32,7 +30,7 @@ public class Fractal implements ModInitializer {
 	public static final Identifier TAB_BOTTOM_UNSELECTED_TEXTURE = Identifier.fromNamespaceAndPath("fractal", "container/creative_inventory/custom_tab_bottom_unselected");
 	public static final Identifier TAB_BOTTOM_LAST_UNSELECTED_TEXTURE = Identifier.fromNamespaceAndPath("fractal", "container/creative_inventory/custom_tab_bottom_last_unselected");
 	
-	public static final ItemSubGroupStyle STYLE = new ItemSubGroupStyle.Builder()
+	public static final CreativeSubTabStyle STYLE = new CreativeSubTabStyle.Builder()
 			.background(BACKGROUND_TEXTURE)
 			.scrollbar(SCROLLBAR_ENABLED_TEXTURE, SCROLLBAR_DISABLED_TEXTURE)
 			.subtab(SUBTAB_SELECTED_TEXTURE_LEFT, SUBTAB_UNSELECTED_TEXTURE_LEFT, SUBTAB_SELECTED_TEXTURE_RIGHT, SUBTAB_UNSELECTED_TEXTURE_RIGHT)
@@ -45,7 +43,7 @@ public class Fractal implements ModInitializer {
 	public static final CreativeModeTab MAIN = FabricItemGroup.builder()
 			.icon(() -> new ItemStack(Blocks.REDSTONE_BLOCK))
 			.displayItems((itemDisplayParameters, output) -> {
-				for (ItemSubGroup subGroup : Fractal.MAIN.fractal$getChildren()) {
+				for (CreativeSubTab subGroup : Fractal.MAIN.fractal$getChildren()) {
 					output.acceptAll(subGroup.getSearchTabDisplayItems(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 				}
 			})
@@ -53,15 +51,15 @@ public class Fractal implements ModInitializer {
 			.hideTitle()
 			.build();
 	
-	public static final CreativeModeTab EQUIPMENT = new ItemSubGroup.Builder(MAIN, Identifier.fromNamespaceAndPath("mymod", "equipment"), Component.translatable("itemGroup.mymod.equipment")).styled(STYLE).entries((displayContext, entries) -> entries.accept(Items.APPLE)).build();
-	public static final CreativeModeTab FUNCTIONAL = new ItemSubGroup.Builder(MAIN, Identifier.fromNamespaceAndPath("mymod", "functional"), Component.translatable("itemGroup.mymod.functional")).styled(STYLE).entries((displayContext, entries) -> entries.accept(Items.BAKED_POTATO)).build();
-	public static final CreativeModeTab CUISINE = new ItemSubGroup.Builder(MAIN, Identifier.fromNamespaceAndPath("mymod", "cuisine"), Component.translatable("itemGroup.mymod.cuisine")).entries((displayContext, entries) -> entries.accept(Items.CACTUS)).build();
-	public static final CreativeModeTab RESOURCES = new ItemSubGroup.Builder(MAIN, Identifier.fromNamespaceAndPath("mymod", "resources"), Component.translatable("itemGroup.mymod.resources")).entries((displayContext, entries) -> entries.accept(Items.DANDELION)).build();
+	public static final CreativeModeTab EQUIPMENT = new CreativeSubTab.Builder(MAIN, Identifier.fromNamespaceAndPath("mymod", "equipment"), Component.translatable("itemGroup.mymod.equipment")).styled(STYLE).entries((displayContext, entries) -> entries.accept(Items.APPLE)).build();
+	public static final CreativeModeTab FUNCTIONAL = new CreativeSubTab.Builder(MAIN, Identifier.fromNamespaceAndPath("mymod", "functional"), Component.translatable("itemGroup.mymod.functional")).styled(STYLE).entries((displayContext, entries) -> entries.accept(Items.BAKED_POTATO)).build();
+	public static final CreativeModeTab CUISINE = new CreativeSubTab.Builder(MAIN, Identifier.fromNamespaceAndPath("mymod", "cuisine"), Component.translatable("itemGroup.mymod.cuisine")).entries((displayContext, entries) -> entries.accept(Items.CACTUS)).build();
+	public static final CreativeModeTab RESOURCES = new CreativeSubTab.Builder(MAIN, Identifier.fromNamespaceAndPath("mymod", "resources"), Component.translatable("itemGroup.mymod.resources")).entries((displayContext, entries) -> entries.accept(Items.DANDELION)).build();
 	*/
 	
 	@Override
 	public void onInitialize() {
-		//Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, GROUP_ID, MAIN);
+		// Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, GROUP_ID, MAIN);
 	}
 	
 }

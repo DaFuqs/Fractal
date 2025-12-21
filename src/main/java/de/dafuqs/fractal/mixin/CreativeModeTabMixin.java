@@ -3,8 +3,7 @@ package de.dafuqs.fractal.mixin;
 import com.google.common.collect.*;
 import de.dafuqs.fractal.api.*;
 import de.dafuqs.fractal.interfaces.*;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
@@ -12,12 +11,12 @@ import org.spongepowered.asm.mixin.injection.callback.*;
 import java.util.*;
 
 @Mixin(CreativeModeTab.class)
-public class MixinCreativeModeTab implements ItemGroupParent {
+public class CreativeModeTabMixin implements ICreativeTabParent {
 	
 	@Unique
-	private final List<ItemSubGroup> fractal$children = Lists.newArrayList();
+	private final List<CreativeSubTab> fractal$children = Lists.newArrayList();
 	@Unique
-	private ItemSubGroup fractal$selectedChild = null;
+	private CreativeSubTab fractal$selectedChild = null;
 	
 	@Inject(at = @At("HEAD"), method = "getDisplayItems", cancellable = true)
 	public void getDisplayStacks(CallbackInfoReturnable<Collection<ItemStack>> cir) {
@@ -27,17 +26,17 @@ public class MixinCreativeModeTab implements ItemGroupParent {
 	}
 	
 	@Override
-	public List<ItemSubGroup> fractal$getChildren() {
+	public List<CreativeSubTab> fractal$getChildren() {
 		return fractal$children;
 	}
 	
 	@Override
-	public ItemSubGroup fractal$getSelectedChild() {
+	public CreativeSubTab fractal$getSelectedChild() {
 		return fractal$selectedChild;
 	}
 	
 	@Override
-	public void fractal$setSelectedChild(ItemSubGroup group) {
+	public void fractal$setSelectedChild(CreativeSubTab group) {
 		fractal$selectedChild = group;
 	}
 	

@@ -3,10 +3,10 @@ package de.dafuqs.fractal.api;
 import de.dafuqs.fractal.impl.*;
 import net.fabricmc.fabric.api.event.*;
 import net.fabricmc.fabric.api.itemgroup.v1.*;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.*;
 
-public final class ItemSubGroupEvents {
-	private ItemSubGroupEvents() {
+public final class CreativeSubTabEvent {
+	private CreativeSubTabEvent() {
 	}
 
 	/**
@@ -29,8 +29,8 @@ public final class ItemSubGroupEvents {
 	 * @param identifier the {@link Identifier} of the item group to modify
 	 * @return the event
 	 */
-	public static Event<ItemSubGroupEvents.ModifyEntries> modifyEntriesEvent(Identifier identifier) {
-		return ItemSubGroupEventsImpl.getOrCreateModifyEntriesEvent(identifier);
+	public static Event<CreativeSubTabEvent.ModifyEntries> modifyEntriesEvent(Identifier identifier) {
+		return CreativeSubTabEventImpl.getOrCreateModifyEntriesEvent(identifier);
 	}
 
 	@FunctionalInterface
@@ -51,6 +51,6 @@ public final class ItemSubGroupEvents {
 		 * @param entries the entries
 		 * @see FabricItemGroupEntries
 		 */
-		void modifyEntries(ItemSubGroup group, FabricItemGroupEntries entries);
+		void modifyEntries(CreativeSubTab group, FabricItemGroupEntries entries);
 	}
 }

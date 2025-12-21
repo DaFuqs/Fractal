@@ -3,10 +3,10 @@ package de.dafuqs.fractal.mixin.client;
 import de.dafuqs.fractal.api.*;
 import de.dafuqs.fractal.interfaces.*;
 import net.fabricmc.api.*;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.screens.inventory.*;
+import net.minecraft.resources.*;
+import net.minecraft.world.item.*;
 import org.jetbrains.annotations.*;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
@@ -27,14 +27,14 @@ public abstract class CreativeModeInventoryScreenCustomTextureMixin {
 	// BACKGROUND
 	@ModifyArg(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
 	private Identifier injectCustomGroupTexture(Identifier original) {
-		ItemSubGroup subGroup = getSelectedSubGroup();
+		CreativeSubTab subGroup = getSelectedSubGroup();
 		return (subGroup == null || subGroup.getStyle().backgroundTexture() == null) ? original : subGroup.getStyle().backgroundTexture();
 	}
 	
 	// SCROLLBAR
 	@ModifyArg(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
 	private Identifier injectCustomScrollbarTexture(Identifier original) {
-		ItemSubGroup subGroup = getSelectedSubGroup();
+		CreativeSubTab subGroup = getSelectedSubGroup();
 		if(subGroup != null) {
 			Identifier scrollbarTextureID = this.canScroll() ? subGroup.getStyle().enabledScrollbarTexture() : subGroup.getStyle().disabledScrollbarTexture();
 			if(scrollbarTextureID != null) {
@@ -52,11 +52,11 @@ public abstract class CreativeModeInventoryScreenCustomTextureMixin {
 	
 	@ModifyArg(method = "renderTabButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"))
 	private Identifier injectCustomTabTexture(Identifier original) {
-		ItemSubGroup subGroup = getRenderedSubGroup();
+		CreativeSubTab subGroup = getRenderedSubGroup();
 		if(subGroup == null) {
 			return original;
 		}
-		ItemSubGroupStyle style = subGroup.getStyle();
+		CreativeSubTabStyle style = subGroup.getStyle();
 		if(style == null) {
 			return original;
 		}
@@ -72,13 +72,13 @@ public abstract class CreativeModeInventoryScreenCustomTextureMixin {
 	}
 	
 	@Unique
-	private @Nullable ItemSubGroup getRenderedSubGroup() {
-		return fractal$renderedItemGroup instanceof ItemGroupParent itemGroupParent ? itemGroupParent.fractal$getSelectedChild() : null;
+	private @Nullable CreativeSubTab getRenderedSubGroup() {
+		return fractal$renderedItemGroup instanceof ICreativeTabParent itemGroupParent ? itemGroupParent.fractal$getSelectedChild() : null;
 	}
 	
 	@Unique
-	private @Nullable ItemSubGroup getSelectedSubGroup() {
-		return selectedTab instanceof ItemGroupParent itemGroupParent ? itemGroupParent.fractal$getSelectedChild() : null;
+	private @Nullable CreativeSubTab getSelectedSubGroup() {
+		return selectedTab instanceof ICreativeTabParent itemGroupParent ? itemGroupParent.fractal$getSelectedChild() : null;
 	}
 	
 }

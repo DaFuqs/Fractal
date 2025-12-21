@@ -1,8 +1,9 @@
 package de.dafuqs.fractal.api;
 
-import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.flag.*;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -19,12 +20,12 @@ public class DefaultStackEntryCollector implements CreativeModeTab.Output {
 	}
 	
 	@Override
-	public void accept(ItemLike item, CreativeModeTab.TabVisibility visibility) {
+	public void accept(ItemLike item, CreativeModeTab.@NotNull TabVisibility visibility) {
 		this.accept(item.asItem().getDefaultInstance(), visibility);
 	}
 	
 	@Override
-	public void accept(ItemStack stack, CreativeModeTab.TabVisibility visibility) {
+	public void accept(ItemStack stack, CreativeModeTab.@NotNull TabVisibility visibility) {
 		if (stack.getCount() != 1) {
 			throw new IllegalArgumentException("Stack size must be exactly 1");
 		} else {

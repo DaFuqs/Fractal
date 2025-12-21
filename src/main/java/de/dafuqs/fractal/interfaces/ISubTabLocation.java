@@ -1,6 +1,6 @@
 package de.dafuqs.fractal.interfaces;
 
-public interface SubTabLocation {
+public interface ISubTabLocation {
 	
 	// tab start y
 	int fractal$getY();

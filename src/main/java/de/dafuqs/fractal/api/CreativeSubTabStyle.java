@@ -1,31 +1,30 @@
 package de.dafuqs.fractal.api;
 
-import net.minecraft.resources.Identifier;
-import net.minecraft.util.*;
+import net.minecraft.resources.*;
 import org.jetbrains.annotations.*;
 
-public record ItemSubGroupStyle(@Nullable Identifier backgroundTexture, int subtabNameTextColor,
-
-								@Nullable Identifier selectedSubtabTextureLeft,
-								@Nullable Identifier unselectedSubtabTextureLeft,
-								@Nullable Identifier selectedSubtabTextureRight,
-								@Nullable Identifier unselectedSubtabTextureRight,
-
-								@Nullable Identifier enabledScrollbarTexture,
-								@Nullable Identifier disabledScrollbarTexture,
-
-								@Nullable Identifier tabTopFirstSelectedTexture,
-								@Nullable Identifier tabTopSelectedTexture,
-								@Nullable Identifier tabTopLastSelectedTexture,
-								@Nullable Identifier tabTopFirstUnselectedTexture,
-								@Nullable Identifier tabTopUnselectedTexture,
-								@Nullable Identifier tabTopLastUnselectedTexture,
-								@Nullable Identifier tabBottomFirstSelectedTexture,
-								@Nullable Identifier tabBottomSelectedTexture,
-								@Nullable Identifier tabBottomLastSelectedTexture,
-								@Nullable Identifier tabBottomFirstUnselectedTexture,
-								@Nullable Identifier tabBottomUnselectedTexture,
-								@Nullable Identifier tabBottomLastUnselectedTexture) {
+public record CreativeSubTabStyle(@Nullable Identifier backgroundTexture, int subtabNameTextColor,
+								  
+								  @Nullable Identifier selectedSubtabTextureLeft,
+								  @Nullable Identifier unselectedSubtabTextureLeft,
+								  @Nullable Identifier selectedSubtabTextureRight,
+								  @Nullable Identifier unselectedSubtabTextureRight,
+								  
+								  @Nullable Identifier enabledScrollbarTexture,
+								  @Nullable Identifier disabledScrollbarTexture,
+								  
+								  @Nullable Identifier tabTopFirstSelectedTexture,
+								  @Nullable Identifier tabTopSelectedTexture,
+								  @Nullable Identifier tabTopLastSelectedTexture,
+								  @Nullable Identifier tabTopFirstUnselectedTexture,
+								  @Nullable Identifier tabTopUnselectedTexture,
+								  @Nullable Identifier tabTopLastUnselectedTexture,
+								  @Nullable Identifier tabBottomFirstSelectedTexture,
+								  @Nullable Identifier tabBottomSelectedTexture,
+								  @Nullable Identifier tabBottomLastSelectedTexture,
+								  @Nullable Identifier tabBottomFirstUnselectedTexture,
+								  @Nullable Identifier tabBottomUnselectedTexture,
+								  @Nullable Identifier tabBottomLastUnselectedTexture) {
 	
 	public static final Identifier DEFAULT_SUBTAB_SELECTED_TEXTURE_LEFT = Identifier.fromNamespaceAndPath("fractal", "container/creative_inventory/subtab_selected_left");
 	public static final Identifier DEFAULT_SUBTAB_UNSELECTED_TEXTURE_LEFT = Identifier.fromNamespaceAndPath("fractal", "container/creative_inventory/subtab_unselected_left");
@@ -106,8 +105,8 @@ public record ItemSubGroupStyle(@Nullable Identifier backgroundTexture, int subt
 			return this;
 		}
 		
-		public ItemSubGroupStyle build() {
-			return new ItemSubGroupStyle(backgroundTexture, subtabNameTextColor,
+		public CreativeSubTabStyle build() {
+			return new CreativeSubTabStyle(backgroundTexture, subtabNameTextColor,
 					selectedSubtabTextureLeft, unselectedSubtabTextureLeft, selectedSubtabTextureRight, unselectedSubtabTextureRight,
 					enabledScrollbarTexture, disabledScrollbarTexture,
 					tabTopFirstSelectedTexture, tabTopSelectedTexture, tabTopLastSelectedTexture, tabTopFirstUnselectedTexture, tabTopUnselectedTexture, tabTopLastUnselectedTexture,
