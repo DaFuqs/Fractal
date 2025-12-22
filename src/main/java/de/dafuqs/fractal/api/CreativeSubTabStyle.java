@@ -3,83 +3,76 @@ package de.dafuqs.fractal.api;
 import net.minecraft.resources.*;
 import org.jetbrains.annotations.*;
 
-public record CreativeSubTabStyle(
-		@Nullable ResourceLocation backgroundTexture,
-		
-		@Nullable ResourceLocation selectedSubtabTextureLeft,
-		@Nullable ResourceLocation unselectedSubtabTextureLeft,
-		@Nullable ResourceLocation selectedSubtabTextureRight,
-		@Nullable ResourceLocation unselectedSubtabTextureRight,
-		
-		@Nullable ResourceLocation enabledScrollbarTexture,
-		@Nullable ResourceLocation disabledScrollbarTexture,
-		
-		@Nullable ResourceLocation tabTopFirstSelectedTexture,
-		@Nullable ResourceLocation tabTopSelectedTexture,
-		@Nullable ResourceLocation tabTopLastSelectedTexture,
-		@Nullable ResourceLocation tabTopFirstUnselectedTexture,
-		@Nullable ResourceLocation tabTopUnselectedTexture,
-		@Nullable ResourceLocation tabTopLastUnselectedTexture,
-		@Nullable ResourceLocation tabBottomFirstSelectedTexture,
-		@Nullable ResourceLocation tabBottomSelectedTexture,
-		@Nullable ResourceLocation tabBottomLastSelectedTexture,
-		@Nullable ResourceLocation tabBottomFirstUnselectedTexture,
-		@Nullable ResourceLocation tabBottomUnselectedTexture,
-		@Nullable ResourceLocation tabBottomLastUnselectedTexture
-) {
-	public static final ResourceLocation DEFAULT_SUBTAB_SELECTED_TEXTURE_LEFT = ResourceLocation.fromNamespaceAndPath("fractal", "container/creative_inventory/subtab_selected_left");
-	public static final ResourceLocation DEFAULT_SUBTAB_UNSELECTED_TEXTURE_LEFT = ResourceLocation.fromNamespaceAndPath("fractal", "container/creative_inventory/subtab_unselected_left");
-	public static final ResourceLocation DEFAULT_SUBTAB_SELECTED_TEXTURE_RIGHT = ResourceLocation.fromNamespaceAndPath("fractal", "container/creative_inventory/subtab_selected_right");
-	public static final ResourceLocation DEFAULT_SUBTAB_UNSELECTED_TEXTURE_RIGHT = ResourceLocation.fromNamespaceAndPath("fractal", "container/creative_inventory/subtab_unselected_right");
+public record CreativeSubTabStyle(@Nullable Identifier backgroundTexture, int subtabNameTextColor,
+								  
+								  @Nullable Identifier selectedSubtabTextureLeft,
+								  @Nullable Identifier unselectedSubtabTextureLeft,
+								  @Nullable Identifier selectedSubtabTextureRight,
+								  @Nullable Identifier unselectedSubtabTextureRight,
+								  
+								  @Nullable Identifier enabledScrollbarTexture,
+								  @Nullable Identifier disabledScrollbarTexture,
+								  
+								  @Nullable Identifier tabTopFirstSelectedTexture,
+								  @Nullable Identifier tabTopSelectedTexture,
+								  @Nullable Identifier tabTopLastSelectedTexture,
+								  @Nullable Identifier tabTopFirstUnselectedTexture,
+								  @Nullable Identifier tabTopUnselectedTexture,
+								  @Nullable Identifier tabTopLastUnselectedTexture,
+								  @Nullable Identifier tabBottomFirstSelectedTexture,
+								  @Nullable Identifier tabBottomSelectedTexture,
+								  @Nullable Identifier tabBottomLastSelectedTexture,
+								  @Nullable Identifier tabBottomFirstUnselectedTexture,
+								  @Nullable Identifier tabBottomUnselectedTexture,
+								  @Nullable Identifier tabBottomLastUnselectedTexture) {
+	
+	public static final Identifier DEFAULT_SUBTAB_SELECTED_TEXTURE_LEFT = Identifier.fromNamespaceAndPath("fractal", "container/creative_inventory/subtab_selected_left");
+	public static final Identifier DEFAULT_SUBTAB_UNSELECTED_TEXTURE_LEFT = Identifier.fromNamespaceAndPath("fractal", "container/creative_inventory/subtab_unselected_left");
+	public static final Identifier DEFAULT_SUBTAB_SELECTED_TEXTURE_RIGHT = Identifier.fromNamespaceAndPath("fractal", "container/creative_inventory/subtab_selected_right");
+	public static final Identifier DEFAULT_SUBTAB_UNSELECTED_TEXTURE_RIGHT = Identifier.fromNamespaceAndPath("fractal", "container/creative_inventory/subtab_unselected_right");
 	
 	public static class Builder {
-		protected @Nullable ResourceLocation backgroundTexture;
 		
-		protected @Nullable ResourceLocation selectedSubtabTextureLeft = DEFAULT_SUBTAB_SELECTED_TEXTURE_LEFT;
-		protected @Nullable ResourceLocation unselectedSubtabTextureLeft = DEFAULT_SUBTAB_UNSELECTED_TEXTURE_LEFT;
-		protected @Nullable ResourceLocation selectedSubtabTextureRight = DEFAULT_SUBTAB_SELECTED_TEXTURE_RIGHT;
-		protected @Nullable ResourceLocation unselectedSubtabTextureRight = DEFAULT_SUBTAB_UNSELECTED_TEXTURE_RIGHT;
+		protected @Nullable Identifier backgroundTexture;
+		protected int subtabNameTextColor = 0xFF000000; // default vanilla text is 0xFF404040;
 		
-		protected @Nullable ResourceLocation enabledScrollbarTexture;
-		protected @Nullable ResourceLocation disabledScrollbarTexture;
+		protected @Nullable Identifier selectedSubtabTextureLeft = DEFAULT_SUBTAB_SELECTED_TEXTURE_LEFT;
+		protected @Nullable Identifier unselectedSubtabTextureLeft = DEFAULT_SUBTAB_UNSELECTED_TEXTURE_LEFT;
+		protected @Nullable Identifier selectedSubtabTextureRight = DEFAULT_SUBTAB_SELECTED_TEXTURE_RIGHT;
+		protected @Nullable Identifier unselectedSubtabTextureRight = DEFAULT_SUBTAB_UNSELECTED_TEXTURE_RIGHT;
 		
-		protected @Nullable ResourceLocation tabTopFirstSelectedTexture;
-		protected @Nullable ResourceLocation tabTopSelectedTexture;
-		protected @Nullable ResourceLocation tabTopLastSelectedTexture;
-		protected @Nullable ResourceLocation tabTopFirstUnselectedTexture;
-		protected @Nullable ResourceLocation tabTopUnselectedTexture;
-		protected @Nullable ResourceLocation tabTopLastUnselectedTexture;
+		protected @Nullable Identifier enabledScrollbarTexture;
+		protected @Nullable Identifier disabledScrollbarTexture;
 		
-		protected @Nullable ResourceLocation tabBottomFirstSelectedTexture;
-		protected @Nullable ResourceLocation tabBottomSelectedTexture;
-		protected @Nullable ResourceLocation tabBottomLastSelectedTexture;
-		protected @Nullable ResourceLocation tabBottomFirstUnselectedTexture;
-		protected @Nullable ResourceLocation tabBottomUnselectedTexture;
-		protected @Nullable ResourceLocation tabBottomLastUnselectedTexture;
+		protected @Nullable Identifier tabTopFirstSelectedTexture;
+		protected @Nullable Identifier tabTopSelectedTexture;
+		protected @Nullable Identifier tabTopLastSelectedTexture;
+		protected @Nullable Identifier tabTopFirstUnselectedTexture;
+		protected @Nullable Identifier tabTopUnselectedTexture;
+		protected @Nullable Identifier tabTopLastUnselectedTexture;
+		
+		protected @Nullable Identifier tabBottomFirstSelectedTexture;
+		protected @Nullable Identifier tabBottomSelectedTexture;
+		protected @Nullable Identifier tabBottomLastSelectedTexture;
+		protected @Nullable Identifier tabBottomFirstUnselectedTexture;
+		protected @Nullable Identifier tabBottomUnselectedTexture;
+		protected @Nullable Identifier tabBottomLastUnselectedTexture;
 		
 		public Builder() {
 		}
 		
-		public Builder background(ResourceLocation backgroundTexture) // texture
-		{
+		public Builder background(Identifier backgroundTexture) { // texture
 			this.backgroundTexture = backgroundTexture;
 			return this;
 		}
 		
-		public Builder scrollbar(ResourceLocation enabledTexture, ResourceLocation disabledTexture) // sprite
-		{
+		public Builder scrollbar(Identifier enabledTexture, Identifier disabledTexture) { // sprite
 			this.enabledScrollbarTexture = enabledTexture;
 			this.disabledScrollbarTexture = disabledTexture;
 			return this;
 		}
 		
-		public Builder subtab(
-				ResourceLocation selectedSubtabTextureLeft,
-				ResourceLocation unselectedSubtabTextureLeft,
-				ResourceLocation selectedSubtabTextureRight,
-				ResourceLocation unselectedSubtabTextureRight
-		) // sprite
-		{
+		public Builder subtab(Identifier selectedSubtabTextureLeft, Identifier unselectedSubtabTextureLeft, Identifier selectedSubtabTextureRight, Identifier unselectedSubtabTextureRight) { // sprite
 			this.selectedSubtabTextureLeft = selectedSubtabTextureLeft;
 			this.unselectedSubtabTextureLeft = unselectedSubtabTextureLeft;
 			this.selectedSubtabTextureRight = selectedSubtabTextureRight;
@@ -87,21 +80,9 @@ public record CreativeSubTabStyle(
 			return this;
 		}
 		
-		public Builder tab(
-				ResourceLocation topFirstSelectedTexture,
-				ResourceLocation topSelectedTexture,
-				ResourceLocation topLastSelectedTexture,
-				ResourceLocation topFirstUnselectedTexture,
-				ResourceLocation topUnselectedTexture,
-				ResourceLocation topLastUnselectedTexture,
-				ResourceLocation bottomFirstSelectedTexture,
-				ResourceLocation bottomSelectedTexture,
-				ResourceLocation bottomLastSelectedTexture,
-				ResourceLocation bottomFirstUnselectedTexture,
-				ResourceLocation bottomUnselectedTexture,
-				ResourceLocation bottomLastUnselectedTexture
-		) // sprite
-		{
+		public Builder tab(Identifier topFirstSelectedTexture, Identifier topSelectedTexture, Identifier topLastSelectedTexture, Identifier topFirstUnselectedTexture, Identifier topUnselectedTexture, Identifier topLastUnselectedTexture,
+						   Identifier bottomFirstSelectedTexture, Identifier bottomSelectedTexture, Identifier bottomLastSelectedTexture, Identifier bottomFirstUnselectedTexture, Identifier bottomUnselectedTexture, Identifier bottomLastUnselectedTexture) { // sprite
+			
 			this.tabTopFirstSelectedTexture = topFirstSelectedTexture;
 			this.tabTopSelectedTexture = topSelectedTexture;
 			this.tabTopLastSelectedTexture = topLastSelectedTexture;
@@ -120,13 +101,12 @@ public record CreativeSubTabStyle(
 		}
 		
 		public CreativeSubTabStyle build() {
-			return new CreativeSubTabStyle(
-					backgroundTexture,
+			return new CreativeSubTabStyle(backgroundTexture, subtabNameTextColor,
 					selectedSubtabTextureLeft, unselectedSubtabTextureLeft, selectedSubtabTextureRight, unselectedSubtabTextureRight,
 					enabledScrollbarTexture, disabledScrollbarTexture,
 					tabTopFirstSelectedTexture, tabTopSelectedTexture, tabTopLastSelectedTexture, tabTopFirstUnselectedTexture, tabTopUnselectedTexture, tabTopLastUnselectedTexture,
-					tabBottomFirstSelectedTexture, tabBottomSelectedTexture, tabBottomLastSelectedTexture, tabBottomFirstUnselectedTexture, tabBottomUnselectedTexture, tabBottomLastUnselectedTexture
-			);
+					tabBottomFirstSelectedTexture, tabBottomSelectedTexture, tabBottomLastSelectedTexture, tabBottomFirstUnselectedTexture, tabBottomUnselectedTexture, tabBottomLastUnselectedTexture);
 		}
 	}
+	
 }

@@ -15,10 +15,10 @@ import java.util.*;
 @SuppressWarnings("unused")
 @JeiPlugin
 public class FractalJEIPlugin implements IModPlugin {
-	public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("fractal", "jei_plugin");
+	public static final Identifier ID = Identifier.fromNamespaceAndPath("fractal", "jei_plugin");
 	
 	@Override
-	public ResourceLocation getPluginUid() {
+	public Identifier getPluginUid() {
 		return ID;
 	}
 	

@@ -92,22 +92,19 @@ public class FractalTestMod {
 			.build();
 	
 	// Create a subtab for the basic redstone things.
-	public static final CreativeModeTab REDSTONE = new CreativeSubTab.Builder(
-			TAB, // This is the parent tab we're registering the subtab to.
-			id("redstone"),
-			Component.translatable("itemGroup.fractal.redstone")
-	)
-			.entries((displayContext, entries) -> {
-				entries.accept(Items.REDSTONE);
-				entries.accept(Items.REDSTONE_TORCH);
-				entries.accept(Items.REDSTONE_BLOCK);
-				entries.accept(Items.REPEATER);
-				entries.accept(Items.COMPARATOR);
-				entries.accept(Items.REDSTONE_ORE);
-			})
+	public static final CreativeModeTab REDSTONE = new CreativeSubTab.Builder(CreativeModeTab.builder()
+			.displayItems((params, output) -> {
+				output.accept(Items.REDSTONE);
+				output.accept(Items.REDSTONE_TORCH);
+				output.accept(Items.REDSTONE_BLOCK);
+				output.accept(Items.REPEATER);
+				output.accept(Items.COMPARATOR);
+				output.accept(Items.REDSTONE_ORE);
+			}), TAB, Identifier.fromNamespaceAndPath("fractal", "redstone"), Component.translatable("itemGroup.fractal.redstone"))
 			.styled(STYLE_REDSTONE) // Use the redstone style we defined above.
 			.build();
-	public static final CreativeModeTab COMPONENTS = new CreativeSubTab.Builder(TAB, id("components"), Component.translatable("itemGroup.fractal.components"))
+	
+	/*public static final CreativeModeTab COMPONENTS = new CreativeSubTab.Builder(TAB, id("components"), Component.translatable("itemGroup.fractal.components"))
 			.entries((displayContext, entries) -> {
 				entries.accept(Items.WAXED_COPPER_BULB);
 				entries.accept(Items.WAXED_EXPOSED_COPPER_BULB);
@@ -193,7 +190,7 @@ public class FractalTestMod {
 			})
 			// Normally subtab titles show as `<Parent Tab Title> <Sub Tab Title>`, this changes it to just be the sub tab's title.
 			.hideParentTitle()
-			.build();
+			.build();*/
 	
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 	
@@ -202,7 +199,7 @@ public class FractalTestMod {
 		TABS.register(modBus);
 	}
 	
-	public static ResourceLocation id(String path) {
-		return ResourceLocation.fromNamespaceAndPath(MODID, path);
+	public static Identifier id(String path) {
+		return Identifier.fromNamespaceAndPath(MODID, path);
 	}
 }

@@ -103,35 +103,35 @@ tabs use the vanilla style.
 ![Screenshots of the Creative Tabs](images/screenshot_custom_style.png)
 
 ```java
-ResourceLocation id(String path)
+Identifier id(String path)
 {
-	return ResourceLocation.fromNamespaceAndPath("mymod", path);
+	return Identifier.fromNamespaceAndPath("mymod", path);
 }
 
 // Texture (put into resources/assets/mymod/textures/gui/container/creative_inventory)
-public static final ResourceLocation BACKGROUND_TEXTURE = id("textures/gui/container/creative_inventory/custom_background.png");
+public static final Identifier BACKGROUND_TEXTURE = id("textures/gui/container/creative_inventory/custom_background.png");
 
 // Sprites (put into resources/assets/mymod/textures/gui/sprites/container/creative_inventory)
-public static final ResourceLocation SCROLLBAR_ENABLED_TEXTURE = id("container/creative_inventory/custom_scrollbar_enabled");
-public static final ResourceLocation SCROLLBAR_DISABLED_TEXTURE = id("container/creative_inventory/custom_scrollbar_disabled");
+public static final Identifier SCROLLBAR_ENABLED_TEXTURE = id("container/creative_inventory/custom_scrollbar_enabled");
+public static final Identifier SCROLLBAR_DISABLED_TEXTURE = id("container/creative_inventory/custom_scrollbar_disabled");
 
-public static final ResourceLocation SUBTAB_SELECTED_TEXTURE_LEFT = id("container/creative_inventory/custom_subtab_selected_left");
-public static final ResourceLocation SUBTAB_UNSELECTED_TEXTURE_LEFT = id("container/creative_inventory/custom_subtab_unselected_left");
-public static final ResourceLocation SUBTAB_SELECTED_TEXTURE_RIGHT = id("container/creative_inventory/custom_subtab_selected_right");
-public static final ResourceLocation SUBTAB_UNSELECTED_TEXTURE_RIGHT = id("container/creative_inventory/custom_subtab_unselected_right");
+public static final Identifier SUBTAB_SELECTED_TEXTURE_LEFT = id("container/creative_inventory/custom_subtab_selected_left");
+public static final Identifier SUBTAB_UNSELECTED_TEXTURE_LEFT = id("container/creative_inventory/custom_subtab_unselected_left");
+public static final Identifier SUBTAB_SELECTED_TEXTURE_RIGHT = id("container/creative_inventory/custom_subtab_selected_right");
+public static final Identifier SUBTAB_UNSELECTED_TEXTURE_RIGHT = id("container/creative_inventory/custom_subtab_unselected_right");
 
-public static final ResourceLocation TAB_TOP_FIRST_SELECTED_TEXTURE = id("container/creative_inventory/custom_tab_top_first_selected");
-public static final ResourceLocation TAB_TOP_SELECTED_TEXTURE = id("container/creative_inventory/custom_tab_top_selected");
-public static final ResourceLocation TAB_TOP_LAST_SELECTED_TEXTURE = id("container/creative_inventory/custom_tab_top_last_selected");
-public static final ResourceLocation TAB_TOP_FIRST_UNSELECTED_TEXTURE = id("container/creative_inventory/custom_tab_top_first_unselected");
-public static final ResourceLocation TAB_TOP_UNSELECTED_TEXTURE = id("container/creative_inventory/custom_tab_top_unselected");
-public static final ResourceLocation TAB_TOP_LAST_UNSELECTED_TEXTURE = id("container/creative_inventory/custom_tab_top_last_unselected");
-public static final ResourceLocation TAB_BOTTOM_FIRST_SELECTED_TEXTURE = id("container/creative_inventory/custom_tab_bottom_first_selected");
-public static final ResourceLocation TAB_BOTTOM_SELECTED_TEXTURE = id("container/creative_inventory/custom_tab_bottom_selected");
-public static final ResourceLocation TAB_BOTTOM_LAST_SELECTED_TEXTURE = id("container/creative_inventory/custom_tab_bottom_last_selected");
-public static final ResourceLocation TAB_BOTTOM_FIRST_UNSELECTED_TEXTURE = id("container/creative_inventory/custom_tab_bottom_first_unselected");
-public static final ResourceLocation TAB_BOTTOM_UNSELECTED_TEXTURE = id("container/creative_inventory/custom_tab_bottom_unselected");
-public static final ResourceLocation TAB_BOTTOM_LAST_UNSELECTED_TEXTURE = id("container/creative_inventory/custom_tab_bottom_last_unselected");
+public static final Identifier TAB_TOP_FIRST_SELECTED_TEXTURE = id("container/creative_inventory/custom_tab_top_first_selected");
+public static final Identifier TAB_TOP_SELECTED_TEXTURE = id("container/creative_inventory/custom_tab_top_selected");
+public static final Identifier TAB_TOP_LAST_SELECTED_TEXTURE = id("container/creative_inventory/custom_tab_top_last_selected");
+public static final Identifier TAB_TOP_FIRST_UNSELECTED_TEXTURE = id("container/creative_inventory/custom_tab_top_first_unselected");
+public static final Identifier TAB_TOP_UNSELECTED_TEXTURE = id("container/creative_inventory/custom_tab_top_unselected");
+public static final Identifier TAB_TOP_LAST_UNSELECTED_TEXTURE = id("container/creative_inventory/custom_tab_top_last_unselected");
+public static final Identifier TAB_BOTTOM_FIRST_SELECTED_TEXTURE = id("container/creative_inventory/custom_tab_bottom_first_selected");
+public static final Identifier TAB_BOTTOM_SELECTED_TEXTURE = id("container/creative_inventory/custom_tab_bottom_selected");
+public static final Identifier TAB_BOTTOM_LAST_SELECTED_TEXTURE = id("container/creative_inventory/custom_tab_bottom_last_selected");
+public static final Identifier TAB_BOTTOM_FIRST_UNSELECTED_TEXTURE = id("container/creative_inventory/custom_tab_bottom_first_unselected");
+public static final Identifier TAB_BOTTOM_UNSELECTED_TEXTURE = id("container/creative_inventory/custom_tab_bottom_unselected");
+public static final Identifier TAB_BOTTOM_LAST_UNSELECTED_TEXTURE = id("container/creative_inventory/custom_tab_bottom_last_unselected");
 
 public static final CreativeSubTabStyle STYLE = new CreativeSubTabStyle.Builder()
         .background(BACKGROUND_TEXTURE)

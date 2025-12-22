@@ -8,7 +8,7 @@ import java.util.*;
 @ApiStatus.Internal
 public interface ICreativeTabParent {
 	default List<CreativeSubTab> fractal$getChildren() {
-		return null;
+		return List.of();
 	}
 	
 	default CreativeSubTab fractal$getSelectedChild() {

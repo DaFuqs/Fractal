@@ -18,7 +18,7 @@ public abstract class CreativeModeTabMixin implements ICreativeTabParent {
 	private CreativeSubTab fractal$selectedChild = null;
 	
 	@Inject(at = @At("HEAD"), method = "getDisplayItems", cancellable = true)
-	public void getDisplayItems(CallbackInfoReturnable<Collection<ItemStack>> cir) {
+	public void getDisplayStacks(CallbackInfoReturnable<Collection<ItemStack>> cir) {
 		if (fractal$selectedChild != null) {
 			cir.setReturnValue(fractal$selectedChild.getDisplayItems());
 		}

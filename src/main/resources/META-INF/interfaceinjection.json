@@ -2,7 +2,7 @@
   "net/minecraft/world/item/CreativeModeTab": [
     "de/dafuqs/fractal/interfaces/ICreativeTabParent"
   ],
-  "net/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen": [
+  "net/minecraft/world/item/CreativeModeTabs": [
     "de/dafuqs/fractal/interfaces/ISubTabLocation"
   ]
 }

@@ -9,11 +9,9 @@ public interface ISubTabLocation {
 	
 	// left
 	int fractal$getX();
-	
 	int fractal$getH();
 	
 	// right
 	int fractal$getX2();
-	
 	int fractal$getH2();
 }

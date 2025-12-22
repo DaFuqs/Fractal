@@ -5,6 +5,7 @@ import net.minecraft.network.chat.*;
 import net.minecraft.resources.*;
 import net.minecraft.world.item.*;
 import net.neoforged.neoforge.common.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -12,35 +13,19 @@ public class CreativeSubTab extends CreativeModeTab {
 	public static final List<CreativeSubTab> SUBTABS = new ArrayList<>();
 	
 	protected final CreativeModeTab parent;
-	protected final ResourceLocation identifier;
+	protected final Identifier identifier;
 	protected final int indexInParent;
 	protected final CreativeSubTabStyle style;
-	protected boolean showParentTitle = true;
+	protected final boolean showParentTitle;
 	
 	public static final CreativeSubTabStyle DEFAULT_STYLE = new CreativeSubTabStyle.Builder().build();
 	
-	protected CreativeSubTab(CreativeModeTab parent, ResourceLocation identifier, Component displayName, DisplayItemsGenerator entryCollector, CreativeSubTabStyle style) {
-		//noinspection DataFlowIssue
-		super(
-				parent.row(),
-				parent.column(),
-				parent.getType(),
-				displayName,
-				() -> ItemStack.EMPTY,
-				entryCollector,
-				null,
-				false,
-				0,
-				null,
-				0xFFFFFFFF,
-				0xFFFFFFFF,
-				List.of(),
-				List.of()
-		);
-		
-		this.style = style;
-		this.identifier = identifier;
-		this.parent = parent;
+	protected CreativeSubTab(CreativeSubTab.Builder builder) {
+		super(builder.base);
+		this.style = builder.style;
+		this.identifier = builder.identifier;
+		this.parent = builder.parent;
+		this.showParentTitle = builder.showParentTitle;
 		
 		this.indexInParent = parent.fractal$getChildren().size();
 		parent.fractal$getChildren().add(this);
@@ -50,7 +35,7 @@ public class CreativeSubTab extends CreativeModeTab {
 	}
 	
 	@SuppressWarnings("unused")
-	public ResourceLocation getIdentifier() {
+	public Identifier getIdentifier() {
 		return identifier;
 	}
 	
@@ -110,7 +95,7 @@ public class CreativeSubTab extends CreativeModeTab {
 	}
 	
 	@Override
-	public ItemStack getIconItem() {
+	public @NotNull ItemStack getIconItem() {
 		return ItemStack.EMPTY;
 	}
 	
@@ -128,14 +113,15 @@ public class CreativeSubTab extends CreativeModeTab {
 	}
 	
 	public static class Builder {
+		CreativeModeTab.Builder base;
 		protected CreativeModeTab parent;
-		protected final ResourceLocation identifier;
+		protected final Identifier identifier;
 		protected Component displayName;
 		protected CreativeSubTabStyle style = DEFAULT_STYLE;
 		protected boolean showParentTitle = true;
-		private DisplayItemsGenerator entryCollector;
 		
-		public Builder(CreativeModeTab parent, ResourceLocation identifier, Component displayName) {
+		public Builder(CreativeModeTab.Builder base, CreativeModeTab parent, Identifier identifier, Component displayName) {
+			this.base = base;
 			this.parent = parent;
 			this.identifier = identifier;
 			this.displayName = displayName;
@@ -143,11 +129,6 @@ public class CreativeSubTab extends CreativeModeTab {
 		
 		public Builder styled(CreativeSubTabStyle style) {
 			this.style = style;
-			return this;
-		}
-		
-		public Builder entries(DisplayItemsGenerator entryCollector) {
-			this.entryCollector = entryCollector;
 			return this;
 		}
 		
@@ -161,8 +142,7 @@ public class CreativeSubTab extends CreativeModeTab {
 		}
 		
 		public CreativeSubTab build() {
-			CreativeSubTab subtab = new CreativeSubTab(parent, identifier, displayName, entryCollector, style);
-			subtab.showParentTitle = this.showParentTitle;
+			CreativeSubTab subtab = new CreativeSubTab(this);
 			SUBTABS.add(subtab);
 			return subtab;
 		}
