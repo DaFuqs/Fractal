@@ -62,7 +62,8 @@ runs {
 		systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
 	}
 
-	testmodClient {
+	clientTest {
+		run 'client'
 		modSource sourceSets.test
 		systemProperty 'forge.enabledGameTestNamespaces', 'fractal_test'
 	}
@@ -70,12 +71,6 @@ runs {
 	server {
 		systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
 		programArgument '--nogui'
-	}
-}
-
-sourceSets {
-	test {
-		inherit.from sourceSets.test
 	}
 }
 

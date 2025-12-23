@@ -2,31 +2,31 @@ license = "${mod_license}"
 issueTrackerURL = "https://github.com/DaFuqs/Fractal/issues"
 
 [[mods]]
-    modId = "${mod_id}"
-    version = "${mod_version}"
-    displayName = "${mod_name}"
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
 displayURL = "https://github.com/DaFuqs/Fractal"
-    logoFile = "assets/${mod_id}/icon.png"
+logoFile = "assets/${mod_id}/icon.png"
 credits = "Unascribed, DaFuqs, EmmaTheMartian"
-    authors = "${mod_authors}"
-    description = '''${mod_description}'''
+authors = "${mod_authors}"
+description = '''${mod_description}'''
 
 [[mixins]]
-    config = "${mod_id}.mixins.json"
+config = "${mod_id}.mixins.json"
 
 [[accessTransformer]]
-    file = "META-INF/accesstransformer.cfg"
+file = "META-INF/accesstransformer.cfg"
 
 [[dependencies."${mod_id}"]]
-    modId = "neoforge"
-    type = "required"
+modId = "neoforge"
+type = "required"
 versionRange = "${neoforge_version_range}"
-    ordering = "NONE"
-    side = "BOTH"
+ordering = "NONE"
+side = "BOTH"
 
 [[dependencies."${mod_id}"]]
-    modId = "minecraft"
-    type = "required"
-    versionRange = "${minecraft_version_range}"
-    ordering = "NONE"
-    side = "BOTH"
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
