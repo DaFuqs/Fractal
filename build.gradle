@@ -124,3 +124,25 @@ idea {
 		downloadJavadoc = true
 	}
 }
+
+// configure the maven publication
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			artifactId = project.archives_base_name
+			from components.java
+		}
+	}
+
+	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+	repositories {
+		maven {
+			name = "sapphoCompany"
+			url = "https://maven.is-immensely.gay/releases"
+			credentials {
+				username = "dafuqs"
+				password = System.getenv("MAVEN_PASS")
+			}
+		}
+	}
+}
