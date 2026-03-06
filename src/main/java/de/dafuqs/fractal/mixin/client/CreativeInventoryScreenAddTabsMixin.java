@@ -74,7 +74,7 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractInvent
 				context.setShaderColor(1, 1, 1, 1);
 				context.drawGuiTexture(subtabTextureID, pos[0] - tabStartOffset, pos[1], 72, 11);
 				
-				int textOffset = thisChildSelected ? 8 : 5; // makes the text pop slightly outwards if selected
+				int textOffset = thisChildSelected ? 3 : 0; // makes the text pop slightly outwards if selected
 				String tabDisplayName = child.getDisplayName().getString();
 				context.setShaderColor(parent.fractal$getTextR(), parent.fractal$getTextG(), parent.fractal$getTextB(), 1);
 				if(rendersOnTheRight) {
