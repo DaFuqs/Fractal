@@ -39,5 +39,4 @@ public class CreativeModeTabMixin implements ICreativeTabParent {
 	public void fractal$setSelectedChild(CreativeSubTab group) {
 		fractal$selectedChild = group;
 	}
-	
 }
