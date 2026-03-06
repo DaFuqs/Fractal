@@ -1,6 +1,7 @@
 package de.dafuqs.fractal.mixin.client;
 
 import de.dafuqs.fractal.api.*;
+import de.dafuqs.fractal.impl.client.SmallFontRenderer;
 import de.dafuqs.fractal.interfaces.*;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screens.inventory.*;
@@ -24,9 +25,6 @@ import java.util.*;
 public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractContainerScreen<CreativeModeInventoryScreen.@NotNull ItemPickerMenu> implements ISubTabLocation, CreativeModeInventoryScreenAccessor {
 	@Unique
 	private static final int LAST_TAB_INDEX_RENDERING_LEFT = 11;
-	
-	@Unique
-	private static final Identifier TINYFONT_TEXTURE = Identifier.fromNamespaceAndPath("fractal", "textures/gui/tinyfont.png");
 	
 	public CreativeInventoryScreenAddTabsMixin(CreativeModeInventoryScreen.ItemPickerMenu screenHandler, Inventory playerInventory, Component text) {
 		super(screenHandler, playerInventory, text);
@@ -84,27 +82,13 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractContai
 			
 			guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, subtabTextureID, curX - tabStartOffset, curY, 72, 11);
 			
-			int textOffset = thisChildSelected ? 8 : 5; // makes the text pop slightly outwards if selected
+			int textOffset = thisChildSelected ? 3 : 0; // makes the text pop slightly outwards if selected
 			int textColor = child.getStyle().subtabNameTextColor();
 			String tabDisplayName = child.getDisplayName().getString();
 			if (rendersOnTheRight) {
-				for (int i = 0; i < tabDisplayName.length(); i++) {
-					char c = tabDisplayName.charAt(i);
-					if (c > 0x7F) continue;
-					int u = (c % 16) * 4;
-					int v = (c / 16) * 6;
-					guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TINYFONT_TEXTURE, curX + 1 - tabStartOffset + textOffset, curY + 3, u, v, 4, 6, 64, 48, textColor);
-					curX += 4;
-				}
+				SmallFontRenderer.draw(guiGraphics, tabDisplayName, curX + 1 - tabStartOffset + textOffset, curY + 3, false, textColor);
 			} else {
-				for (int i = tabDisplayName.length() - 1; i >= 0; i--) {
-					char c = tabDisplayName.charAt(i);
-					if (c > 0x7F) continue;
-					int u = (c % 16) * 4;
-					int v = (c / 16) * 6;
-					guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TINYFONT_TEXTURE, curX - textOffset, curY + 3, u, v, 4, 6, 64, 48, textColor);
-					curX -= 4;
-				}
+				SmallFontRenderer.draw(guiGraphics, tabDisplayName, curX - textOffset, curY + 3, true, textColor);
 			}
 			
 			int index = child.getIndexInParent();
