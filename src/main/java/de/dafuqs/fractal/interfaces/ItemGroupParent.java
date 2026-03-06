@@ -15,5 +15,10 @@ public interface ItemGroupParent {
 	}
 
 	default void fractal$setSelectedChild(ItemSubGroup group) {}
+
+	default int fractal$getTabOffset() { return 0; }
+	default float fractal$getTextR() { return 0; }
+	default float fractal$getTextG() { return 0; }
+	default float fractal$getTextB() { return 0; }
 	
 }
