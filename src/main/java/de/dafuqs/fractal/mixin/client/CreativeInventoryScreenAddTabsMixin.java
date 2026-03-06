@@ -2,6 +2,7 @@ package de.dafuqs.fractal.mixin.client;
 
 import com.llamalad7.mixinextras.injector.v2.*;
 import de.dafuqs.fractal.api.*;
+import de.dafuqs.fractal.impl.client.SmallFontRenderer;
 import de.dafuqs.fractal.interfaces.*;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screens.inventory.*;
@@ -21,9 +22,7 @@ import java.util.*;
 public abstract class CreativeInventoryScreenAddTabsMixin extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu> implements ISubTabLocation, CreativeModeInventoryScreenAccessor {
 	@Unique
 	private static final int LAST_TAB_INDEX_RENDERING_LEFT = 11;
-	
-	@Unique
-	private static final ResourceLocation TINYFONT_TEXTURE = ResourceLocation.fromNamespaceAndPath("fractal", "textures/gui/tinyfont.png");
+
 	
 	public CreativeInventoryScreenAddTabsMixin(CreativeModeInventoryScreen.ItemPickerMenu screenHandler, Inventory playerInventory, Component text) {
 		super(screenHandler, playerInventory, text);
@@ -86,25 +85,11 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends EffectRenderin
 				
 				int textOffset = thisChildSelected ? 8 : 5; // makes the text pop slightly outwards if selected
 				String tabDisplayName = child.getDisplayName().getString();
-				graphics.setColor(0, 0, 0, 1);
-				if (rendersOnTheRight) {
-					for (int i = 0; i < tabDisplayName.length(); i++) {
-						char c = tabDisplayName.charAt(i);
-						if (c > 0x7F) continue;
-						int u = (c % 16) * 4;
-						int v = (c / 16) * 6;
-						graphics.blit(TINYFONT_TEXTURE, pos[0] + 1 - tabStartOffset + textOffset, pos[1] + 3, u, v, 4, 6, 64, 48);
-						pos[0] += 4;
-					}
+				graphics.setColor(parent.fractal$getTextR(), parent.fractal$getTextG(), parent.fractal$getTextB(), 1);
+				if(rendersOnTheRight) {
+					SmallFontRenderer.draw(graphics, tabDisplayName, pos[0] + 1 - tabStartOffset + textOffset, pos[1] + 3, false);
 				} else {
-					for (int i = tabDisplayName.length() - 1; i >= 0; i--) {
-						char c = tabDisplayName.charAt(i);
-						if (c > 0x7F) continue;
-						int u = (c % 16) * 4;
-						int v = (c / 16) * 6;
-						graphics.blit(TINYFONT_TEXTURE, pos[0] - textOffset, pos[1] + 3, u, v, 4, 6, 64, 48);
-						pos[0] -= 4;
-					}
+					SmallFontRenderer.draw(graphics, tabDisplayName, pos[0] - textOffset, pos[1] + 3, true);
 				}
 				
 				int index = child.getIndexInParent();
