@@ -83,7 +83,7 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends EffectRenderin
 				assert subtabTextureID != null; // This will only fail if a user explicitly sets the subtab texture to null.
 				graphics.blitSprite(subtabTextureID, pos[0] - tabStartOffset, pos[1], 72, 11);
 				
-				int textOffset = thisChildSelected ? 8 : 5; // makes the text pop slightly outwards if selected
+				int textOffset = thisChildSelected ? 3 : 0; // makes the text pop slightly outwards if selected
 				String tabDisplayName = child.getDisplayName().getString();
 				graphics.setColor(parent.fractal$getTextR(), parent.fractal$getTextG(), parent.fractal$getTextB(), 1);
 				if(rendersOnTheRight) {
