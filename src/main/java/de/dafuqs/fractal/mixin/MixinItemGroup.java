@@ -11,10 +11,14 @@ import org.spongepowered.asm.mixin.injection.callback.*;
 import java.util.*;
 
 @Mixin(ItemGroup.class)
-public class MixinItemGroup implements ItemGroupParent {
+public class MixinItemGroup implements ItemGroupParent, ItemGroupConfiguration {
 	
 	private final List<ItemSubGroup> fractal$children = Lists.newArrayList();
 	private ItemSubGroup fractal$selectedChild = null;
+	private int fractal$tabOffset = 0;
+	private float fractal$textR = 0;
+	private float fractal$textG = 0;
+	private float fractal$textB = 0;
 	
 	@Inject(at = @At("HEAD"), method = "getDisplayStacks", cancellable = true)
 	public void getDisplayStacks(CallbackInfoReturnable<Collection<ItemStack>> cir) {
@@ -36,6 +40,38 @@ public class MixinItemGroup implements ItemGroupParent {
 	@Override
 	public void fractal$setSelectedChild(ItemSubGroup group) {
 		fractal$selectedChild = group;
+	}
+	
+	@Override
+	public void fractal$setTabOffset(int offset) {
+		fractal$tabOffset = offset;
+	}
+	
+	@Override
+	public int fractal$getTabOffset() {
+		return fractal$tabOffset;
+	}
+	
+	@Override
+	public void fractal$setTextColor(float r, float g, float b) {
+		fractal$textR = r;
+		fractal$textG = g;
+		fractal$textB = b;
+	}
+	
+	@Override
+	public float fractal$getTextR() {
+		return fractal$textR;
+	}
+	
+	@Override
+	public float fractal$getTextG() {
+		return fractal$textG;
+	}
+	
+	@Override
+	public float fractal$getTextB() {
+		return fractal$textB;
 	}
 	
 }

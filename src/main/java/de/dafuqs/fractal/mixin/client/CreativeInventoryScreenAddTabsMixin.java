@@ -2,6 +2,7 @@ package de.dafuqs.fractal.mixin.client;
 
 import de.dafuqs.fractal.interfaces.*;
 import de.dafuqs.fractal.api.*;
+import de.dafuqs.fractal.impl.client.SmallFontRenderer;
 import net.fabricmc.api.*;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.ingame.*;
@@ -22,11 +23,9 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractInvent
 	
 	@Unique
 	private static final int LAST_TAB_INDEX_RENDERING_LEFT = 11;
-	
+
 	@Unique
 	private static final Identifier SUBTAB_TEXTURE = new Identifier("fractal", "textures/subtab.png");
-	@Unique
-	private static final Identifier TINYFONT_TEXTURE = new Identifier("fractal", "textures/tinyfont.png");
 	
 	public CreativeInventoryScreenAddTabsMixin(CreativeScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
 		super(screenHandler, playerInventory, text);
@@ -38,7 +37,6 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractInvent
 	@Shadow
 	private static ItemGroup selectedTab;
 	
-	@Unique
 	private int fractal$y; // tab start y
 	private int fractal$x, fractal$h; // left tabs
 	private int fractal$x2, fractal$h2; // right tabs
@@ -55,7 +53,7 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractInvent
 				}
 			}
 
-			int[] pos = {this.x, this.y + 6};
+			int[] pos = {this.x, this.y + 6 + parent.fractal$getTabOffset()};
 			int tabStartOffset = 68;
 			int tabWidth = 72;
 			
@@ -76,33 +74,14 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractInvent
 					context.drawTexture(child.getBackgroundTexture(),  pos[0] - tabStartOffset, pos[1], 24, bgV, tabWidth, 11, 256, 256);
 				}
 				
-				int textOffset = thisChildSelected ? 8 : 5; // makes the text pop slightly outwards
+				int textOffset = thisChildSelected ? 3 : 0; // makes the text pop slightly outwards
 				String tabDisplayName = child.getDisplayName().getString();
-				
+
+				context.setShaderColor(parent.fractal$getTextR(), parent.fractal$getTextG(), parent.fractal$getTextB(), 1);
 				if(rendersOnTheRight) {
-					context.draw(() -> {
-						for (int i = 0; i < tabDisplayName.length(); i++) {
-							char c = tabDisplayName.charAt(i);
-							if (c > 0x7F) continue;
-							int u = (c % 16) * 4;
-							int v = (c / 16) * 6;
-							context.setShaderColor(0, 0, 0, 1);
-							context.drawTexture(TINYFONT_TEXTURE, pos[0] + 1 - tabStartOffset + textOffset, pos[1] + 3, u, v, 4, 6, 64, 48);
-							pos[0] += 4;
-						}
-					});
+					SmallFontRenderer.draw(context, tabDisplayName, pos[0] + 1 - tabStartOffset + textOffset, pos[1] + 3, false);
 				} else {
-					context.draw(() -> {
-						for (int i = tabDisplayName.length() - 1; i >= 0; i--) {
-							char c = tabDisplayName.charAt(i);
-							if (c > 0x7F) continue;
-							int u = (c % 16) * 4;
-							int v = (c / 16) * 6;
-							context.setShaderColor(0, 0, 0, 1);
-							context.drawTexture(TINYFONT_TEXTURE, pos[0] - textOffset, pos[1] + 3, u, v, 4, 6, 64, 48);
-							pos[0] -= 4;
-						}
-					});
+					SmallFontRenderer.draw(context, tabDisplayName, pos[0] - textOffset, pos[1] + 3, true);
 				}
 				
 				int index = child.getIndexInParent();
