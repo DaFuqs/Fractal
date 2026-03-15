@@ -16,7 +16,6 @@ Fractal introduces **subtabs for the creative menu**.
 ### Limitations
 
 - More than 12 subgroups per item group, while fully functional, will look weird.
-- The tiny font used for the labels does not support full Unicode.
 
 ## Examples
 
