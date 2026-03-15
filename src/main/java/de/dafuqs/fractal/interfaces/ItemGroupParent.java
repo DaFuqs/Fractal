@@ -9,5 +9,9 @@ public interface ItemGroupParent {
 	List<ItemSubGroup> fractal$getChildren();
 	ItemSubGroup fractal$getSelectedChild();
 	void fractal$setSelectedChild(ItemSubGroup group);
+	int fractal$getTabOffset();
+	float fractal$getTextR();
+	float fractal$getTextG();
+	float fractal$getTextB();
 	
 }
