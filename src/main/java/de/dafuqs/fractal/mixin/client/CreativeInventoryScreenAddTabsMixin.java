@@ -1,6 +1,7 @@
 package de.dafuqs.fractal.mixin.client;
 
 import de.dafuqs.fractal.api.*;
+import de.dafuqs.fractal.impl.client.SmallFontRenderer;
 import de.dafuqs.fractal.interfaces.*;
 import net.fabricmc.api.*;
 import net.minecraft.client.gui.*;
@@ -22,9 +23,7 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractInvent
 	
 	@Unique
 	private static final int LAST_TAB_INDEX_RENDERING_LEFT = 11;
-	
-	@Unique
-	private static final Identifier TINYFONT_TEXTURE = Identifier.of("fractal", "textures/gui/tinyfont.png");
+
 	
 	public CreativeInventoryScreenAddTabsMixin(CreativeScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
 		super(screenHandler, playerInventory, text);
@@ -54,8 +53,8 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractInvent
 					x = context.drawText(textRenderer, child.getDisplayName(), x, this.y + 6, 4210752, false);
 				}
 			}
-			
-			int[] pos = {this.x, this.y + 6};
+
+			int[] pos = {this.x, this.y + 6 + parent.fractal$getTabOffset()};
 			int tabStartOffset = 68;
 			int tabWidth = 72;
 			
@@ -75,32 +74,13 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractInvent
 				context.setShaderColor(1, 1, 1, 1);
 				context.drawGuiTexture(subtabTextureID, pos[0] - tabStartOffset, pos[1], 72, 11);
 				
-				int textOffset = thisChildSelected ? 8 : 5; // makes the text pop slightly outwards if selected
+				int textOffset = thisChildSelected ? 3 : 0; // makes the text pop slightly outwards if selected
 				String tabDisplayName = child.getDisplayName().getString();
+				context.setShaderColor(parent.fractal$getTextR(), parent.fractal$getTextG(), parent.fractal$getTextB(), 1);
 				if(rendersOnTheRight) {
-					context.draw(() -> {
-						context.setShaderColor(0, 0, 0, 1);
-						for (int i = 0; i < tabDisplayName.length(); i++) {
-							char c = tabDisplayName.charAt(i);
-							if (c > 0x7F) continue;
-							int u = (c % 16) * 4;
-							int v = (c / 16) * 6;
-							context.drawTexture(TINYFONT_TEXTURE, pos[0] + 1 - tabStartOffset + textOffset, pos[1] + 3, u, v, 4, 6, 64, 48);
-							pos[0] += 4;
-						}
-					});
+					SmallFontRenderer.draw(context, tabDisplayName, pos[0] + 1 - tabStartOffset + textOffset, pos[1] + 3, false);
 				} else {
-					context.draw(() -> {
-						context.setShaderColor(0, 0, 0, 1);
-						for (int i = tabDisplayName.length() - 1; i >= 0; i--) {
-							char c = tabDisplayName.charAt(i);
-							if (c > 0x7F) continue;
-							int u = (c % 16) * 4;
-							int v = (c / 16) * 6;
-							context.drawTexture(TINYFONT_TEXTURE, pos[0] - textOffset, pos[1] + 3, u, v, 4, 6, 64, 48);
-							pos[0] -= 4;
-						}
-					});
+					SmallFontRenderer.draw(context, tabDisplayName, pos[0] - textOffset, pos[1] + 3, true);
 				}
 				
 				int index = child.getIndexInParent();
