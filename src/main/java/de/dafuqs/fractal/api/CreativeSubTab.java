@@ -1,12 +1,15 @@
 package de.dafuqs.fractal.api;
 
-import net.minecraft.core.registries.*;
-import net.minecraft.network.chat.*;
-import net.minecraft.resources.*;
-import net.minecraft.world.item.*;
-import net.neoforged.neoforge.common.*;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.common.NeoForge;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreativeSubTab extends CreativeModeTab {
 	public static final List<CreativeSubTab> SUBTABS = new ArrayList<>();
@@ -65,50 +68,18 @@ public class CreativeSubTab extends CreativeModeTab {
 	@Override
 	public void buildContents(ItemDisplayParameters parameters) {
 		DefaultStackEntryCollector entries = new DefaultStackEntryCollector(this, parameters.enabledFeatures());
+		final ResourceKey<CreativeModeTab> parentKey = BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(parent).orElseThrow(() -> new IllegalStateException("Unregistered parent item group : " + parent));
+
 		this.displayItemsGenerator.accept(parameters, entries);
+		NeoForge.EVENT_BUS.post(new CreativeSubTabEvent(parentKey, parent, this, parameters, entries));
+
+		// Convert the stacks back to sets after the events had a chance to modify them
 		this.displayItems = entries.parentTabStacks;
 		this.displayItemsSearchTab = entries.searchTabStacks;
-		
-		triggerEntryUpdateEvent(parameters, entries);
-		
 		this.parent.displayItemsSearchTab.addAll(this.displayItemsSearchTab);
 		this.parent.displayItems.addAll(this.displayItems);
 	}
-	
-	// Custom impl of the default fabric event trigger at
-	// https://github.com/FabricMC/fabric/blob/95a137205b0b47b97b1ab35ac09a3430641137de/fabric-item-group-api-v1/src/main/java/net/fabricmc/fabric/mixin/itemgroup/ItemGroupMixin.java#L55
-	protected void triggerEntryUpdateEvent(ItemDisplayParameters context, DefaultStackEntryCollector entries) {
-		final ResourceKey<CreativeModeTab> registryKey = BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(parent).orElseThrow(() -> new IllegalStateException("Unregistered parent item group : " + parent));
-		
-		// Do not modify special item groups (except Operator Blocks) at all.
-		// Special item groups include Saved Hotbars, Search, and Survival Inventory.
-		// Note, search gets modified as part of the parent item group.
-		if (parent.isAlignedRight() && registryKey != CreativeModeTabs.OP_BLOCKS) {
-			return;
-		}
-		
-		// Sanity check for the injection point. It should be after these fields are set.
-		Objects.requireNonNull(displayItems, "displayItems");
-		Objects.requireNonNull(displayItemsSearchTab, "displayItemsSearchTab");
-		
-		// Convert the entries to lists
-		List<ItemStack> mutableDisplayStacks = new LinkedList<>(displayItems);
-		List<ItemStack> mutableSearchTabStacks = new LinkedList<>(displayItemsSearchTab);
 
-//		EventHooks.onCreativeModeTabBuildContents(parent, registryKey, this.displayItemsGenerator, context, entries);
-		
-		if (registryKey != CreativeModeTabs.OP_BLOCKS || context.hasPermissions()) {
-			NeoForge.EVENT_BUS.post(new CreativeSubTabEvent(parent, this, entries));
-		}
-		
-		// Convert the stacks back to sets after the events had a chance to modify them
-		displayItems.clear();
-		displayItems.addAll(mutableDisplayStacks);
-		
-		displayItemsSearchTab.clear();
-		displayItemsSearchTab.addAll(mutableSearchTabStacks);
-	}
-	
 	@Override
 	public ItemStack getIconItem() {
 		return ItemStack.EMPTY;
