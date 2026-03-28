@@ -19,21 +19,13 @@
   "mixins": [
     "fractal.mixins.json"
   ],
-  "accessWidener": "fractal.accesswidener",
+  "accessWidener": "fractal.classtweaker",
   "depends": {
     "minecraft": ">=${minecraft_version}",
     "fabricloader": "*",
     "fabric-api": "*"
   },
   "custom": {
-    "loom:injected_interfaces": {
-      "net/minecraft/class_1761": [
-        "de/dafuqs/fractal/interfaces/ICreativeTabParent"
-      ],
-      "net/minecraft/class_481": [
-        "de/dafuqs/fractal/interfaces/ISubTabLocation"
-      ]
-    },
     "modmenu": {
       "badges": [ "library" ]
     }

@@ -42,9 +42,10 @@ public abstract class CreativeModeInventoryScreenAddTabsMixin extends AbstractCo
 	private int fractal$x, fractal$h; // left tabs
 	@Unique
 	private int fractal$x2, fractal$h2; // right tabs
-	
-	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen;renderTooltip(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
-	public void fractal$render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+
+	// Old
+	@Inject(method = "extractRenderState", at = @At(value = "TAIL"))
+	public void fractal$render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		if (!(selectedTab instanceof ICreativeTabParent parent) || parent.fractal$getChildren().isEmpty()) return;
 		
 		var matrices = guiGraphics.pose();
@@ -54,12 +55,12 @@ public abstract class CreativeModeInventoryScreenAddTabsMixin extends AbstractCo
 		if (!selectedTab.showTitle()) {
 			CreativeModeTab child = parent.fractal$getSelectedChild();
 			var selected = selectedTab.getDisplayName();
-			guiGraphics.drawString(font, selected, 8, 6, CommonColors.DARK_GRAY, false);
+			guiGraphics.text(font, selected, 8, 6, CommonColors.DARK_GRAY, false);
 			int x = 8 + font.width(selected);
 			if (child != null) {
-				guiGraphics.drawString(font, " ", x, 6, CommonColors.DARK_GRAY, false);
+				guiGraphics.text(font, " ", x, 6, CommonColors.DARK_GRAY, false);
 				x += font.width(" ");
-				guiGraphics.drawString(font, child.getDisplayName(), x, 6, CommonColors.DARK_GRAY, false);
+				guiGraphics.text(font, child.getDisplayName(), x, 6, CommonColors.DARK_GRAY, false);
 			}
 		}
 

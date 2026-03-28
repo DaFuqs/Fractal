@@ -2,7 +2,7 @@ package de.dafuqs.fractal.api;
 
 import de.dafuqs.fractal.impl.*;
 import net.fabricmc.fabric.api.event.*;
-import net.fabricmc.fabric.api.itemgroup.v1.*;
+import net.fabricmc.fabric.api.creativetab.v1.*;
 import net.minecraft.resources.*;
 
 public final class CreativeSubTabEvent {
@@ -38,9 +38,9 @@ public final class CreativeSubTabEvent {
 		/**
 		 * Modifies the item group entries.
 		 * @param entries the entries
-		 * @see FabricItemGroupEntries
+		 * @see FabricCreativeModeTabOutput
 		 */
-		void modifyEntries(FabricItemGroupEntries entries);
+		void modifyEntries(FabricCreativeModeTabOutput entries);
 	}
 
 	@FunctionalInterface
@@ -49,8 +49,8 @@ public final class CreativeSubTabEvent {
 		 * Modifies the item group entries.
 		 * @param group the item group that is being modified
 		 * @param entries the entries
-		 * @see FabricItemGroupEntries
+		 * @see FabricCreativeModeTabOutput
 		 */
-		void modifyEntries(CreativeSubTab group, FabricItemGroupEntries entries);
+		void modifyEntries(CreativeSubTab group, FabricCreativeModeTabOutput entries);
 	}
 }
