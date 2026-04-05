@@ -5,7 +5,7 @@ import java.io.UncheckedIOException;
 
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
@@ -22,7 +22,7 @@ public class SmallFontRenderer {
 	private static final Identifier SILVER_FNT = Identifier.fromNamespaceAndPath("fractal", "textures/gui/silver.fnt");
 	private static AngelFont SILVER;
 
-	public static void draw(GuiGraphics ctx, String str, int x, int y, boolean rtl, int textColor) {
+	public static void draw(GuiGraphicsExtractor ctx, String str, int x, int y, boolean rtl, int textColor) {
 		int[] codePoints = str.codePoints().toArray();
 		if (rtl) {
 			int hf = codePoints.length/2;
@@ -59,7 +59,7 @@ public class SmallFontRenderer {
 			} else {
 				if (!hasRegisteredReloader) {
 					hasRegisteredReloader = true;
-					ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(Identifier.fromNamespaceAndPath("fractal", "font_loader"), new Reloader());
+					ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(Identifier.fromNamespaceAndPath("fractal", "font_loader"), new Reloader());
 				}
 				if (SILVER == null) {
 					SILVER = Reloader.parse(Minecraft.getInstance().getResourceManager());

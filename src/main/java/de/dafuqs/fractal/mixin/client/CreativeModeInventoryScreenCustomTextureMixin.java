@@ -25,14 +25,14 @@ public abstract class CreativeModeInventoryScreenCustomTextureMixin {
 	private CreativeModeTab fractal$renderedItemGroup;
 	
 	// BACKGROUND
-	@ModifyArg(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
+	@ModifyArg(method = "extractBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
 	private Identifier injectCustomGroupTexture(Identifier original) {
 		CreativeSubTab subGroup = getSelectedSubGroup();
 		return (subGroup == null || subGroup.getStyle().backgroundTexture() == null) ? original : subGroup.getStyle().backgroundTexture();
 	}
 	
 	// SCROLLBAR
-	@ModifyArg(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
+	@ModifyArg(method = "extractBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
 	private Identifier injectCustomScrollbarTexture(Identifier original) {
 		CreativeSubTab subGroup = getSelectedSubGroup();
 		if(subGroup != null) {
@@ -45,12 +45,13 @@ public abstract class CreativeModeInventoryScreenCustomTextureMixin {
 	}
 	
 	// ICON
-	@Inject(method = "renderTabButton", at = @At("HEAD"))
-	private void captureContextGroup(GuiGraphics guiGraphics, int i, int j, CreativeModeTab creativeModeTab, CallbackInfo ci) {
+	@Inject(method = "extractTabButton", at = @At("HEAD"))
+	private void captureContextGroup(GuiGraphicsExtractor graphics, int mouseX, int mouseY, CreativeModeTab creativeModeTab, CallbackInfo ci) {
 		this.fractal$renderedItemGroup = creativeModeTab;
 	}
-	
-	@ModifyArg(method = "renderTabButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"))
+
+	// Old
+	@ModifyArg(method = "extractTabButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"))
 	private Identifier injectCustomTabTexture(Identifier original) {
 		CreativeSubTab subGroup = getRenderedSubGroup();
 		if(subGroup == null) {

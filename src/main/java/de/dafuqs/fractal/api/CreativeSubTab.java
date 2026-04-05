@@ -1,7 +1,7 @@
 package de.dafuqs.fractal.api;
 
 import net.fabricmc.fabric.api.event.*;
-import net.fabricmc.fabric.api.itemgroup.v1.*;
+import net.fabricmc.fabric.api.creativetab.v1.*;
 import net.minecraft.core.registries.*;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.*;
@@ -73,8 +73,8 @@ public class CreativeSubTab extends CreativeModeTab {
 		// Convert the entries to lists
 		List<ItemStack> mutableDisplayStacks = new LinkedList<>(displayItems);
 		List<ItemStack> mutableSearchTabStacks = new LinkedList<>(displayItemsSearchTab);
-		FabricItemGroupEntries entries = new FabricItemGroupEntries(context, mutableDisplayStacks, mutableSearchTabStacks); // scary ApiStatus.Internal usage
-		
+		FabricCreativeModeTabOutput entries = new FabricCreativeModeTabOutput(context, mutableDisplayStacks, mutableSearchTabStacks); // scary ApiStatus.Internal usage
+
 		final Event<CreativeSubTabEvent.ModifyEntries> modifyEntriesEvent = CreativeSubTabEvent.modifyEntriesEvent(identifier);
 		
 		if (modifyEntriesEvent != null) {

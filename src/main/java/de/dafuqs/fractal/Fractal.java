@@ -40,7 +40,7 @@ public class Fractal implements ModInitializer {
 	
 	public static final Identifier GROUP_ID = Identifier.fromNamespaceAndPath("mymod", "main");
 	
-	public static final CreativeModeTab MAIN = FabricItemGroup.builder()
+	public static final CreativeModeTab MAIN = FabricCreativeModeTab.builder()
 			.icon(() -> new ItemStack(Blocks.REDSTONE_BLOCK))
 			.displayItems((itemDisplayParameters, output) -> {
 				for (CreativeSubTab subGroup : Fractal.MAIN.fractal$getChildren()) {
