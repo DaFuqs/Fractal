@@ -1,26 +1,31 @@
 package de.dafuqs.fractal.mixin.client;
 
-import de.dafuqs.fractal.api.*;
+import de.dafuqs.fractal.api.CreativeSubTab;
+import de.dafuqs.fractal.api.CreativeSubTabStyle;
 import de.dafuqs.fractal.impl.client.SmallFontRenderer;
-import de.dafuqs.fractal.interfaces.*;
-import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.screens.inventory.*;
-import net.minecraft.client.input.*;
-import net.minecraft.client.renderer.*;
-import net.minecraft.network.chat.*;
-import net.minecraft.resources.*;
-import net.minecraft.util.*;
-import net.minecraft.world.entity.player.*;
-import net.minecraft.world.item.*;
-import net.neoforged.api.distmarker.*;
-import org.jetbrains.annotations.*;
-import org.spongepowered.asm.mixin.*;
-import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.*;
+import de.dafuqs.fractal.interfaces.ICreativeTabParent;
+import de.dafuqs.fractal.interfaces.ISubTabLocation;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.CommonColors;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.CreativeModeTab;
+import org.jetbrains.annotations.NotNull;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.*;
+import java.util.List;
 
-@OnlyIn(Dist.CLIENT)
 @Mixin(CreativeModeInventoryScreen.class)
 public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractContainerScreen<CreativeModeInventoryScreen.@NotNull ItemPickerMenu> implements ISubTabLocation, CreativeModeInventoryScreenAccessor {
 	@Unique
@@ -42,9 +47,9 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractContai
 	private int fractal$x, fractal$h; // left tabs
 	@Unique
 	private int fractal$x2, fractal$h2; // right tabs
-	
-	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen;renderTooltip(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
-	public void fractal$render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+
+	@Inject(method = "extractRenderState", at = @At(value = "TAIL"))
+	public void fractal$render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		if (!(selectedTab instanceof ICreativeTabParent parent) || parent.fractal$getChildren().isEmpty()) return;
 		
 		var matrices = guiGraphics.pose();
@@ -54,12 +59,12 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractContai
 		if (!selectedTab.showTitle()) {
 			CreativeModeTab child = parent.fractal$getSelectedChild();
 			var selected = selectedTab.getDisplayName();
-			guiGraphics.drawString(font, selected, 8, 6, CommonColors.DARK_GRAY, false);
+			guiGraphics.text(font, selected, 8, 6, CommonColors.DARK_GRAY, false);
 			int x = 8 + font.width(selected);
 			if (child != null) {
-				guiGraphics.drawString(font, " ", x, 6, CommonColors.DARK_GRAY, false);
+				guiGraphics.text(font, " ", x, 6, CommonColors.DARK_GRAY, false);
 				x += font.width(" ");
-				guiGraphics.drawString(font, child.getDisplayName(), x, 6, CommonColors.DARK_GRAY, false);
+				guiGraphics.text(font, child.getDisplayName(), x, 6, CommonColors.DARK_GRAY, false);
 			}
 		}
 		

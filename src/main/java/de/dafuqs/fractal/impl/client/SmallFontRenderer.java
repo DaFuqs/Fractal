@@ -1,16 +1,16 @@
 package de.dafuqs.fractal.impl.client;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
+
+import java.io.IOException;
+import java.io.UncheckedIOException;
 
 public class SmallFontRenderer {
 	
@@ -21,7 +21,7 @@ public class SmallFontRenderer {
 	private static final Identifier SILVER_FNT = Identifier.fromNamespaceAndPath("fractal", "textures/gui/silver.fnt");
 	private static AngelFont SILVER;
 
-	public static void draw(GuiGraphics ctx, String str, int x, int y, boolean rtl, int textColor) {
+	public static void draw(GuiGraphicsExtractor ctx, String str, int x, int y, boolean rtl, int textColor) {
 		int[] codePoints = str.codePoints().toArray();
 		if (rtl) {
 			int hf = codePoints.length/2;

@@ -1,12 +1,10 @@
 package de.dafuqs.fractal.mixin.client;
 
-import net.minecraft.client.gui.screens.inventory.*;
-import net.minecraft.world.item.*;
-import net.neoforged.api.distmarker.*;
-import org.spongepowered.asm.mixin.*;
-import org.spongepowered.asm.mixin.gen.*;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.world.item.CreativeModeTab;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-@OnlyIn(Dist.CLIENT)
 @Mixin(CreativeModeInventoryScreen.class)
 public interface CreativeModeInventoryScreenAccessor {
 	@Accessor("selectedTab")
