@@ -36,7 +36,7 @@ public abstract class CreativeInventoryScreenCustomTextureMixin {
 	}
 	
 	// SCROLLBAR
-	@ModifyArg(method = "extractBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
+	@ModifyArg(method = "extractBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"))
 	private Identifier injectCustomScrollbarTexture(Identifier original) {
 		CreativeSubTab subGroup = fractal$getSelectedSubGroup();
 		if (subGroup != null) {
