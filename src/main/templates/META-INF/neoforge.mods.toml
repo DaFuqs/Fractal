@@ -1,14 +1,13 @@
 license = "${mod_license}"
-issueTrackerURL = "https://github.com/DaFuqs/Fractal/issues"
+issueTrackerURL = "${issue_tracker_url}"
+displayURL = "${display_url}"
 
 [[mods]]
 modId = "${mod_id}"
 version = "${mod_version}"
 displayName = "${mod_name}"
-displayURL = "https://github.com/DaFuqs/Fractal"
-logoFile = "assets/${mod_id}/icon.png"
-credits = "Unascribed, DaFuqs, EmmaTheMartian"
 authors = "${mod_authors}"
+logoFile = "assets/${mod_id}/icon.png"
 description = '''${mod_description}'''
 
 [[mixins]]
