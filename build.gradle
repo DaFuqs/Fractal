@@ -95,11 +95,6 @@ neoForge {
 			client()
 		}
 
-		testmodClient {
-			client()
-			sourceSet = sourceSets.test
-		}
-
 		server {
 			server()
 			programArgument '--nogui'
@@ -124,9 +119,6 @@ neoForge {
 	mods {
 		fractal {
 			sourceSet sourceSets.main
-		}
-		fractal_test {
-			sourceSet sourceSets.test
 		}
 	}
 }

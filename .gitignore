@@ -24,6 +24,7 @@ bin/
 # fabric
 
 run/
+runs/
 backup/
 /deps/
 /remappedSrc/
