@@ -1,17 +1,25 @@
 package de.dafuqs.fractal.mixin.client;
 
-import de.dafuqs.fractal.api.*;
-import de.dafuqs.fractal.interfaces.*;
-import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.screens.inventory.*;
-import net.minecraft.resources.*;
-import net.minecraft.world.item.*;
-import net.neoforged.api.distmarker.*;
-import org.jetbrains.annotations.*;
-import org.spongepowered.asm.mixin.*;
-import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.*;
-import org.spongepowered.asm.mixin.injection.invoke.arg.*;
+import de.dafuqs.fractal.api.CreativeSubTab;
+import de.dafuqs.fractal.api.CreativeSubTabStyle;
+import de.dafuqs.fractal.interfaces.ICreativeTabParent;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.gui.CreativeTabsScreenPage;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @OnlyIn(Dist.CLIENT)
 @Mixin(CreativeModeInventoryScreen.class)
@@ -21,7 +29,9 @@ public abstract class CreativeInventoryScreenCustomTextureMixin {
 	
 	@Shadow
 	protected abstract boolean canScroll();
-	
+
+	@Shadow
+	private CreativeTabsScreenPage currentPage;
 	@Unique
 	private CreativeModeTab fractal$renderedItemGroup;
 	
@@ -56,12 +66,11 @@ public abstract class CreativeInventoryScreenCustomTextureMixin {
 		if (subGroup == null) {
 			return original;
 		}
-		CreativeSubTabStyle style = subGroup.getStyle();
-		
-		boolean onTop = this.fractal$renderedItemGroup.row() == CreativeModeTab.Row.TOP;
+
 		boolean isSelected = selectedTab == this.fractal$renderedItemGroup;
-		
-		ResourceLocation texture = onTop
+
+		CreativeSubTabStyle style = subGroup.getStyle();
+		ResourceLocation texture = this.currentPage.isTop(this.fractal$renderedItemGroup)
 				? isSelected ? this.fractal$renderedItemGroup.column() == 0 ? style.tabTopFirstSelectedTexture() : style.tabTopSelectedTexture() : style.tabTopUnselectedTexture()
 				: isSelected ? this.fractal$renderedItemGroup.column() == 0 ? style.tabBottomFirstSelectedTexture() : style.tabBottomSelectedTexture() : style.tabBottomUnselectedTexture();
 		
