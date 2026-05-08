@@ -1,19 +1,14 @@
 package de.dafuqs.fractal;
 
-import de.dafuqs.fractal.api.CreativeSubTab;
-import de.dafuqs.fractal.interfaces.ICreativeTabParent;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
-@EventBusSubscriber(modid = Fractal.MOD_ID)
+//@EventBusSubscriber(modid = Fractal.MOD_ID)
 @Mod("fractal")
 public class Fractal {
 
     public static final String MOD_ID = "fractal";
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void register(BuildCreativeModeTabContentsEvent event) {
         ICreativeTabParent tabParent = event.getTab();
         for (CreativeSubTab subTab : tabParent.fractal$getChildren()) {
@@ -21,7 +16,7 @@ public class Fractal {
         }
     }
 
-/*
+
     // Create a subtab style for the redstone subtab.
     public static final CreativeSubTabStyle STYLE_REDSTONE = new CreativeSubTabStyle.Builder()
             .background(id("textures/gui/container/creative_inventory/redstone_menu.png"))
@@ -205,8 +200,121 @@ public class Fractal {
 
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Fractal.MOD_ID);
 
+
+    public static final CreativeModeTab TAB2 = CreativeModeTab.builder()
+            .icon(() -> new ItemStack(Blocks.REDSTONE_BLOCK))
+            .displayItems((displayContext, entries) -> {
+                entries.accept(Items.APPLE, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+                for (CreativeSubTab subGroup : Fractal.TAB.fractal$getChildren()) {
+                    entries.acceptAll(subGroup.getSearchTabDisplayItems(), CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
+                }
+            })
+            .title(Component.translatable("itemGroup.fractal.main2"))
+            .build();
+
+    public static final CreativeModeTab REDSTONE2 = new CreativeSubTab.Builder(TAB2, id("redstone"), Component.translatable("itemGroup.fractal.redstone2"))
+            .entries((displayContext, entries) -> {entries.accept(Items.REDSTONE);})
+            .styled(STYLE_REDSTONE).build();
+
+    public static final CreativeModeTab TAB3 = CreativeModeTab.builder()
+            .icon(() -> new ItemStack(Blocks.REDSTONE_BLOCK))
+            .displayItems((displayContext, entries) -> {
+                entries.accept(Items.APPLE, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+                for (CreativeSubTab subGroup : Fractal.TAB.fractal$getChildren()) {
+                    entries.acceptAll(subGroup.getSearchTabDisplayItems(), CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
+                }
+            })
+            .title(Component.translatable("itemGroup.fractal.main3"))
+            .build();
+
+    public static final CreativeModeTab REDSTONE3 = new CreativeSubTab.Builder(TAB3, id("redstone"), Component.translatable("itemGroup.fractal.redstone3"))
+            .entries((displayContext, entries) -> {entries.accept(Items.REDSTONE);})
+            .styled(STYLE_REDSTONE).build();
+
+    public static final CreativeModeTab TAB4 = CreativeModeTab.builder()
+            .icon(() -> new ItemStack(Blocks.REDSTONE_BLOCK))
+            .displayItems((displayContext, entries) -> {
+                entries.accept(Items.APPLE, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+                for (CreativeSubTab subGroup : Fractal.TAB.fractal$getChildren()) {
+                    entries.acceptAll(subGroup.getSearchTabDisplayItems(), CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
+                }
+            })
+            .title(Component.translatable("itemGroup.fractal.main4"))
+            .build();
+
+    public static final CreativeModeTab REDSTONE4 = new CreativeSubTab.Builder(TAB4, id("redstone"), Component.translatable("itemGroup.fractal.redstone4"))
+            .entries((displayContext, entries) -> {entries.accept(Items.REDSTONE);})
+            .styled(STYLE_REDSTONE).build();
+
+    public static final CreativeModeTab TAB5 = CreativeModeTab.builder()
+            .icon(() -> new ItemStack(Blocks.REDSTONE_BLOCK))
+            .displayItems((displayContext, entries) -> {
+                entries.accept(Items.APPLE, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+                for (CreativeSubTab subGroup : Fractal.TAB.fractal$getChildren()) {
+                    entries.acceptAll(subGroup.getSearchTabDisplayItems(), CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
+                }
+            })
+            .title(Component.translatable("itemGroup.fractal.main5"))
+            .build();
+
+    public static final CreativeModeTab REDSTONE5 = new CreativeSubTab.Builder(TAB5, id("redstone"), Component.translatable("itemGroup.fractal.redstone5"))
+            .entries((displayContext, entries) -> {entries.accept(Items.REDSTONE);})
+            .styled(STYLE_REDSTONE).build();
+
+    public static final CreativeModeTab TAB6 = CreativeModeTab.builder()
+            .icon(() -> new ItemStack(Blocks.REDSTONE_BLOCK))
+            .displayItems((displayContext, entries) -> {
+                entries.accept(Items.APPLE, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+                for (CreativeSubTab subGroup : Fractal.TAB.fractal$getChildren()) {
+                    entries.acceptAll(subGroup.getSearchTabDisplayItems(), CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
+                }
+            })
+            .title(Component.translatable("itemGroup.fractal.main6"))
+            .build();
+
+    public static final CreativeModeTab REDSTONE6 = new CreativeSubTab.Builder(TAB6, id("redstone"), Component.translatable("itemGroup.fractal.redstone6"))
+            .entries((displayContext, entries) -> {entries.accept(Items.REDSTONE);})
+            .styled(STYLE_REDSTONE).build();
+
+    public static final CreativeModeTab TAB7 = CreativeModeTab.builder()
+            .icon(() -> new ItemStack(Blocks.REDSTONE_BLOCK))
+            .displayItems((displayContext, entries) -> {
+                entries.accept(Items.APPLE, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+                for (CreativeSubTab subGroup : Fractal.TAB.fractal$getChildren()) {
+                    entries.acceptAll(subGroup.getSearchTabDisplayItems(), CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
+                }
+            })
+            .title(Component.translatable("itemGroup.fractal.main7"))
+            .build();
+
+    public static final CreativeModeTab REDSTONE7 = new CreativeSubTab.Builder(TAB7, id("redstone"), Component.translatable("itemGroup.fractal.redstone7"))
+            .entries((displayContext, entries) -> {entries.accept(Items.REDSTONE);})
+            .styled(STYLE_REDSTONE).build();
+
+    public static final CreativeModeTab TAB8 = CreativeModeTab.builder()
+            .icon(() -> new ItemStack(Blocks.REDSTONE_BLOCK))
+            .displayItems((displayContext, entries) -> {
+                entries.accept(Items.APPLE, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+                for (CreativeSubTab subGroup : Fractal.TAB.fractal$getChildren()) {
+                    entries.acceptAll(subGroup.getSearchTabDisplayItems(), CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
+                }
+            })
+            .title(Component.translatable("itemGroup.fractal.main8"))
+            .build();
+
+    public static final CreativeModeTab REDSTONE8 = new CreativeSubTab.Builder(TAB8, id("redstone"), Component.translatable("itemGroup.fractal.redstone8"))
+            .entries((displayContext, entries) -> {entries.accept(Items.REDSTONE);})
+            .styled(STYLE_REDSTONE).build();
+
     public Fractal(IEventBus modBus) {
         TABS.register("tab", () -> TAB);
+        TABS.register("tab2", () -> TAB2);
+        TABS.register("tab3", () -> TAB3);
+        TABS.register("tab4", () -> TAB4);
+        TABS.register("tab5", () -> TAB5);
+        TABS.register("tab6", () -> TAB6);
+        TABS.register("tab7", () -> TAB7);
+        TABS.register("tab8", () -> TAB8);
         TABS.register(modBus);
     }
 
