@@ -7,14 +7,14 @@ import net.minecraft.world.level.*;
 import java.util.*;
 
 public class DefaultStackEntryCollector implements CreativeModeTab.Output {
-	public final Collection<ItemStack> parentTabStacks = ItemStackLinkedSet.createTypeAndComponentsSet();
-	public final Set<ItemStack> searchTabStacks = ItemStackLinkedSet.createTypeAndComponentsSet();
-	private final CreativeModeTab group;
-	private final FeatureFlagSet enabledFeatures;
-	
-	public DefaultStackEntryCollector(CreativeModeTab group, FeatureFlagSet enabledFeatures) {
-		this.group = group;
-		this.enabledFeatures = enabledFeatures;
+	public final Collection<ItemStack> tabContents = ItemStackLinkedSet.createTypeAndComponentsSet();
+	public final Set<ItemStack> searchTabContents = ItemStackLinkedSet.createTypeAndComponentsSet();
+	private final CreativeModeTab tab;
+	private final FeatureFlagSet featureFlagSet;
+
+	public DefaultStackEntryCollector(CreativeModeTab tab, FeatureFlagSet featureFlagSet) {
+		this.tab = tab;
+		this.featureFlagSet = featureFlagSet;
 	}
 	
 	@Override
@@ -27,17 +27,17 @@ public class DefaultStackEntryCollector implements CreativeModeTab.Output {
 		if (stack.getCount() != 1) {
 			throw new IllegalArgumentException("Stack size must be exactly 1");
 		} else {
-			if (this.parentTabStacks.contains(stack) && visibility != CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY) {
-				throw new IllegalStateException("Accidentally adding the same item stack twice " + stack.getHoverName().getString() + " to a Creative Mode Tab: " + this.group.getDisplayName().getString());
+			if (this.tabContents.contains(stack) && visibility != CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY) {
+				throw new IllegalStateException("Accidentally adding the same item stack twice " + stack.getHoverName().getString() + " to a Creative Mode Tab: " + this.tab.getDisplayName().getString());
 			} else {
-				if (stack.getItem().isEnabled(this.enabledFeatures)) {
+				if (stack.getItem().isEnabled(this.featureFlagSet)) {
 					switch (visibility) {
 						case PARENT_AND_SEARCH_TABS -> {
-							this.parentTabStacks.add(stack);
-							this.searchTabStacks.add(stack);
+							this.tabContents.add(stack);
+							this.searchTabContents.add(stack);
 						}
-						case PARENT_TAB_ONLY -> this.parentTabStacks.add(stack);
-						case SEARCH_TAB_ONLY -> this.searchTabStacks.add(stack);
+						case PARENT_TAB_ONLY -> this.tabContents.add(stack);
+						case SEARCH_TAB_ONLY -> this.searchTabContents.add(stack);
 					}
 				}
 			}

@@ -1,15 +1,12 @@
 package de.dafuqs.fractal.api;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.NeoForge;
+import net.minecraft.core.registries.*;
+import net.minecraft.network.chat.*;
+import net.minecraft.resources.*;
+import net.minecraft.world.item.*;
+import net.neoforged.neoforge.common.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CreativeSubTab extends CreativeModeTab {
 	public static final List<CreativeSubTab> SUBTABS = new ArrayList<>();
@@ -74,8 +71,8 @@ public class CreativeSubTab extends CreativeModeTab {
 		NeoForge.EVENT_BUS.post(new CreativeSubTabEvent(parentKey, parent, this, parameters, entries));
 
 		// Convert the stacks back to sets after the events had a chance to modify them
-		this.displayItems = entries.parentTabStacks;
-		this.displayItemsSearchTab = entries.searchTabStacks;
+		this.displayItems = entries.tabContents;
+		this.displayItemsSearchTab = entries.searchTabContents;
 		this.parent.displayItemsSearchTab.addAll(this.displayItemsSearchTab);
 		this.parent.displayItems.addAll(this.displayItems);
 	}
