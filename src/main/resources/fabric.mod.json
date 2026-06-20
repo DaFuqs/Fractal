@@ -4,8 +4,13 @@
   "version": "${version}",
   "name": "Fractal",
   "description": "Adds item subgroups.",
-  "authors": [ "unascribed" ],
+  "authors": [
+    "unascribed",
+    "DaFuqs"
+  ],
   "contact": {
+    "website": "https://github.com/DaFuqs",
+    "issues": "https://github.com/DaFuqs/fractal/issues",
     "repo": "https://github.com/DaFuqs/fractal"
   },
   "license": "MIT",
