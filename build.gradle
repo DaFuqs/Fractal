@@ -1,11 +1,17 @@
 plugins {
-	id 'net.neoforged.gradle.userdev' version '7.1.21'
+	id 'net.neoforged.gradle.userdev' version "${neogradle_version}"
 	id 'maven-publish'
 	id 'idea'
 }
 
 version = mod_version
 group = mod_group_id
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(25)
+	}
+}
 
 repositories {
 	maven { url "https://maven.neoforged.net" }
@@ -42,8 +48,6 @@ repositories {
 base {
 	archivesName = archives_base_name
 }
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 accessTransformers {
 	file 'src/main/resources/META-INF/accesstransformer.cfg'
