@@ -1,6 +1,15 @@
 package de.dafuqs.fractal;
 
-import net.neoforged.fml.common.Mod;
+import de.dafuqs.fractal.api.*;
+import net.minecraft.core.registries.*;
+import net.minecraft.network.chat.*;
+import net.minecraft.resources.*;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.*;
+import net.neoforged.bus.api.*;
+import net.neoforged.fml.*;
+import net.neoforged.fml.common.*;
+import net.neoforged.neoforge.registries.*;
 
 @Mod(Fractal.MODID)
 public class Fractal {
@@ -8,7 +17,7 @@ public class Fractal {
 	public static final String MODID = "fractal";
 
 	// Create a subtab style for the redstone subtab
-	/*public static final CreativeSubTabStyle STYLE_REDSTONE = new CreativeSubTabStyle.Builder()
+	public static final CreativeSubTabStyle STYLE_REDSTONE = new CreativeSubTabStyle.Builder()
 			.background(id("textures/gui/container/creative_inventory/redstone_menu.png"))
 			.tab(
 					id("container/creative_inventory/redstone_tab_top_selected_1"),
@@ -80,7 +89,7 @@ public class Fractal {
 					output.acceptAll(subGroup.getSearchTabDisplayItems(), CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
 				}
 			})
-			.title(Component.translatable("itemGroup.fractal.main"))
+			.title(Component.literal("itemGroup.fractal.main"))
 			.build();
 
 	// Create a subtab for the basic redstone things.
@@ -93,17 +102,13 @@ public class Fractal {
 						output.accept(Items.REPEATER);
 						output.accept(Items.COMPARATOR);
 						output.accept(Items.REDSTONE_ORE);
-					}), TAB, Identifier.fromNamespaceAndPath("fractal", "redstone"), Component.translatable("itemGroup.fractal.redstone"))
+					}), TAB, Identifier.fromNamespaceAndPath("fractal", "redstone"), Component.literal("itemGroup.fractal.redstone"))
 			.styled(STYLE_REDSTONE) // Use the redstone style we defined above.
 			.build();
 
 	public static final CreativeModeTab COMPONENTS = new CreativeSubTab.Builder(
 			CreativeModeTab.builder()
 					.displayItems((params, output) -> {
-						output.accept(Items.WAXED_COPPER_BULB);
-						output.accept(Items.WAXED_EXPOSED_COPPER_BULB);
-						output.accept(Items.WAXED_WEATHERED_COPPER_BULB);
-						output.accept(Items.WAXED_OXIDIZED_COPPER_BULB);
 						output.accept(Items.LEVER);
 						output.accept(Items.OAK_BUTTON);
 						output.accept(Items.STONE_BUTTON);
@@ -120,7 +125,7 @@ public class Fractal {
 						output.accept(Items.HONEY_BLOCK);
 						output.accept(Items.OBSERVER);
 						output.accept(Items.NOTE_BLOCK);
-					}), TAB, id("components"), Component.translatable("itemGroup.fractal.components"))
+					}), TAB, id("components"), Component.literal("itemGroup.fractal.components"))
 			.styled(STYLE_COMPONENTS)
 			.build();
 	public static final CreativeModeTab LOGISTICS = new CreativeSubTab.Builder(
@@ -140,14 +145,14 @@ public class Fractal {
 						output.accept(Items.TNT_MINECART);
 						output.accept(Items.OAK_CHEST_BOAT);
 						output.accept(Items.BAMBOO_CHEST_RAFT);
-					}), TAB, id("logistics"), Component.translatable("itemGroup.fractal.logistics"))
+					}), TAB, id("logistics"), Component.literal("itemGroup.fractal.logistics"))
 			.styled(STYLE_LOGISTICS)
 			.build();
 	public static final CreativeModeTab AUTOMATION = new CreativeSubTab.Builder(
 			CreativeModeTab.builder()
 					.displayItems((params, output) -> {
 						output.accept(Items.CRAFTER);
-					}), TAB, id("automation"), Component.translatable("itemGroup.fractal.automation"))
+					}), TAB, id("automation"), Component.literal("itemGroup.fractal.automation"))
 			.styled(STYLE_AUTOMATION)
 			.build();
 	public static final CreativeModeTab COMPARATOR_OUTPUTS = new CreativeSubTab.Builder(
@@ -162,7 +167,7 @@ public class Fractal {
 						output.accept(Items.DECORATED_POT);
 						output.accept(Items.COMPOSTER);
 						output.accept(Items.CAULDRON);
-					}), TAB, id("comparator_outputs"), Component.translatable("itemGroup.fractal.comparator_outputs"))
+					}), TAB, id("comparator_outputs"), Component.literal("itemGroup.fractal.comparator_outputs"))
 			.build();
 	public static final CreativeModeTab MISC = new CreativeSubTab.Builder(
 			CreativeModeTab.builder()
@@ -172,9 +177,7 @@ public class Fractal {
 						output.accept(Items.CALIBRATED_SCULK_SENSOR);
 						output.accept(Items.SCULK_SHRIEKER);
 						output.accept(Items.AMETHYST_BLOCK);
-						output.accept(Items.WHITE_WOOL);
 						output.accept(Items.LECTERN);
-						output.accept(Items.LIGHTNING_ROD);
 						output.accept(Items.OAK_DOOR);
 						output.accept(Items.IRON_DOOR);
 						output.accept(Items.OAK_FENCE_GATE);
@@ -185,7 +188,7 @@ public class Fractal {
 						output.accept(Items.BELL);
 						output.accept(Items.BIG_DRIPLEAF);
 						output.accept(Items.ARMOR_STAND);
-					}), TAB, id("misc"), Component.translatable("itemGroup.fractal.misc"))
+					}), TAB, id("misc"), Component.literal("itemGroup.fractal.misc"))
 			// Normally subtab titles show as `<Parent Tab Title> <Sub Tab Title>`, this changes it to just be the sub tab's title.
 			.hideParentTitle()
 			.build();
@@ -199,6 +202,6 @@ public class Fractal {
 
 	public static Identifier id(String path) {
 		return Identifier.fromNamespaceAndPath(MODID, path);
-	}*/
+	}
 
 }
