@@ -19,6 +19,9 @@
   "entrypoints": {
     "main": [
       "de.dafuqs.fractal.Fractal"
+    ],
+    "rei_client": [
+      "de.dafuqs.fractal.compat.FractalREIPlugin"
     ]
   },
   "mixins": [
