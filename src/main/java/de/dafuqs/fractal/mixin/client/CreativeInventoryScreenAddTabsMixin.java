@@ -1,30 +1,23 @@
 package de.dafuqs.fractal.mixin.client;
 
-import de.dafuqs.fractal.api.CreativeSubTab;
-import de.dafuqs.fractal.api.CreativeSubTabStyle;
-import de.dafuqs.fractal.impl.client.SmallFontRenderer;
-import de.dafuqs.fractal.interfaces.ICreativeTabParent;
-import de.dafuqs.fractal.interfaces.ISubTabLocation;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import net.minecraft.util.CommonColors;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.CreativeModeTab;
-import org.jetbrains.annotations.NotNull;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import de.dafuqs.fractal.api.*;
+import de.dafuqs.fractal.impl.client.*;
+import de.dafuqs.fractal.interfaces.*;
+import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.screens.inventory.*;
+import net.minecraft.client.input.*;
+import net.minecraft.client.renderer.*;
+import net.minecraft.network.chat.*;
+import net.minecraft.resources.*;
+import net.minecraft.util.*;
+import net.minecraft.world.entity.player.*;
+import net.minecraft.world.item.*;
+import org.jetbrains.annotations.*;
+import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.*;
 
-import java.util.List;
+import java.util.*;
 
 @Mixin(CreativeModeInventoryScreen.class)
 public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractContainerScreen<CreativeModeInventoryScreen.@NotNull ItemPickerMenu> implements ISubTabLocation, CreativeModeInventoryScreenAccessor {
@@ -55,15 +48,17 @@ public abstract class CreativeInventoryScreenAddTabsMixin extends AbstractContai
 		var matrices = guiGraphics.pose();
 		matrices.pushMatrix();
 		matrices.translate(this.leftPos, this.topPos);
-		
-		if (!selectedTab.showTitle()) {
+
+		if (selectedTab.showTitle()) {
 			CreativeModeTab child = parent.fractal$getSelectedChild();
 			var selected = selectedTab.getDisplayName();
 			guiGraphics.text(font, selected, 8, 6, CommonColors.DARK_GRAY, false);
 			int x = 8 + font.width(selected);
-			if (child != null) {
-				guiGraphics.text(font, " ", x, 6, CommonColors.DARK_GRAY, false);
-				x += font.width(" ");
+			if (child instanceof CreativeSubTab subTab) {
+				if (subTab.showParentTitle()) {
+					guiGraphics.text(font, " ", x, 6, CommonColors.DARK_GRAY, false);
+					x += font.width(" ");
+				}
 				guiGraphics.text(font, child.getDisplayName(), x, 6, CommonColors.DARK_GRAY, false);
 			}
 		}

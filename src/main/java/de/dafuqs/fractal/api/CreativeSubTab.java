@@ -1,7 +1,6 @@
 package de.dafuqs.fractal.api;
 
 import net.minecraft.core.registries.*;
-import net.minecraft.network.chat.*;
 import net.minecraft.resources.*;
 import net.minecraft.world.item.*;
 import net.neoforged.neoforge.common.*;
@@ -38,8 +37,8 @@ public class CreativeSubTab extends CreativeModeTab {
 	public Identifier getIdentifier() {
 		return identifier;
 	}
-	
-	public boolean shouldShowParentTitle() {
+
+	public boolean showParentTitle() {
 		return showParentTitle;
 	}
 	
@@ -116,29 +115,27 @@ public class CreativeSubTab extends CreativeModeTab {
 		CreativeModeTab.Builder base;
 		protected CreativeModeTab parent;
 		protected final Identifier identifier;
-		protected Component displayName;
 		protected CreativeSubTabStyle style = DEFAULT_STYLE;
 		protected boolean showParentTitle = true;
-		
-		public Builder(CreativeModeTab.Builder base, CreativeModeTab parent, Identifier identifier, Component displayName) {
+
+		public Builder(CreativeModeTab.Builder base, CreativeModeTab parent, Identifier identifier) {
 			this.base = base;
 			this.parent = parent;
 			this.identifier = identifier;
-			this.displayName = displayName;
 		}
 		
 		public Builder styled(CreativeSubTabStyle style) {
 			this.style = style;
 			return this;
 		}
-		
-		public Builder setShouldShowParentTitle(boolean value) {
+
+		public Builder showParentTitle(boolean value) {
 			this.showParentTitle = value;
 			return this;
 		}
 		
 		public Builder hideParentTitle() {
-			return setShouldShowParentTitle(false);
+			return showParentTitle(false);
 		}
 		
 		public CreativeSubTab build() {
